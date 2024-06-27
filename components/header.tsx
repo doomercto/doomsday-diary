@@ -35,10 +35,6 @@ const PAGES: ReadonlyArray<PageDefiniton> = [
     path: '/feed',
   },
   {
-    name: 'Test',
-    path: '/test',
-  },
-  {
     name: 'About',
     path: '/about',
   },
@@ -142,9 +138,6 @@ export default function Header() {
                 Sign in
               </DropdownMenuItem>
             )}
-            <DropdownMenuItem onClick={() => signOut()}>
-              (DEBUG) Sign out
-            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
