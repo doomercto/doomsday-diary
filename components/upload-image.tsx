@@ -13,7 +13,7 @@ import { Button } from './ui/button';
 import { toast } from './ui/use-toast';
 
 const imageUploadForm = z.object({
-  image: z.any().refine(file => file),
+  image: z.any().refine(file => file, { message: 'Select an image' }),
 });
 
 export default function UploadImage({

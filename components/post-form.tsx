@@ -31,7 +31,7 @@ import UploadImagePopover from './upload-image-popover';
 const ethAddressRegex = new RegExp(/^(0x)?[0-9a-fA-F]{40}$/);
 
 export const formSchema = z.object({
-  title: z.string().min(1).max(255),
+  title: z.string().min(1, 'Title is required').max(255),
   description: z.string().max(1000).optional(),
   anonymous: z.boolean().optional(),
   image: z.string().max(1000).optional(),
@@ -186,6 +186,20 @@ export default function PostForm({
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="wallet"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel>Wallet address (optional)</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="anonymous"
@@ -199,19 +213,6 @@ export default function PostForm({
                     />
                   </FormControl>
                   <FormLabel>Post anonymously</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="wallet"
-              render={({ field }) => (
-                <FormItem className="space-y-1">
-                  <FormLabel>Wallet address</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
