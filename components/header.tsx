@@ -1,6 +1,6 @@
 'use client';
 
-import { CircleUserRound, Menu, NotebookPen, Search } from 'lucide-react';
+import { CircleUserRound, Menu, Search } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -48,16 +48,23 @@ export default function Header() {
 
   const pathname = usePathname();
 
+  const homeLink = (
+    <Link
+      href="/"
+      className="flex items-center gap-2 text-lg font-semibold md:text-base"
+    >
+      <Avatar>
+        <AvatarImage src="favicon.ico" alt="Home" />
+        <AvatarFallback />
+      </Avatar>
+      <span className="sr-only">Home</span>
+    </Link>
+  );
+
   return (
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background/70 px-4 md:px-6 backdrop-blur z-30">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-lg font-semibold md:text-base"
-        >
-          <NotebookPen className="h-6 w-6" />
-          <span className="sr-only">Home</span>
-        </Link>
+        {homeLink}
         {PAGES.map(route => (
           <Link
             key={route.path}
@@ -81,14 +88,7 @@ export default function Header() {
         <SheetTitle className="sr-only">Navigation</SheetTitle>
         <SheetContent aria-describedby={undefined} side="left">
           <nav className="grid gap-6 text-lg font-medium">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-lg font-semibold"
-              onClick={() => setSheetOpen(false)}
-            >
-              <NotebookPen className="h-6 w-6" />
-              <span className="sr-only">Home</span>
-            </Link>
+            {homeLink}
             {PAGES.map(route => (
               <Link
                 key={route.path}
