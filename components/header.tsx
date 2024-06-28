@@ -123,13 +123,13 @@ export default function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {session?.user?.name && (
-              <>
-                <DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-              </>
+            {session?.user?.name ? (
+              <DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>
+            ) : (
+              <DropdownMenuLabel>Anonymous</DropdownMenuLabel>
             )}
-            {session?.user?.email && session.user.email !== 'anonymous' ? (
+            <DropdownMenuSeparator />
+            {session?.user?.email ? (
               <DropdownMenuItem onClick={() => signOut()}>
                 Sign out
               </DropdownMenuItem>

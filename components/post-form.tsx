@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { AlertCircle, LoaderCircle, Plus, X } from 'lucide-react';
+import { LoaderCircle, Plus, X } from 'lucide-react';
 import { z } from 'zod';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -25,7 +25,6 @@ import { Button } from './ui/button';
 import { Checkbox } from './ui/checkbox';
 import { Textarea } from './ui/textarea';
 import { toast } from './ui/use-toast';
-import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import UploadImagePopover from './upload-image-popover';
 
 const ethAddressRegex = new RegExp(/^(0x)?[0-9a-fA-F]{40}$/);
@@ -81,17 +80,7 @@ export default function PostForm({
     }
   }
 
-  if (!session?.user) {
-    return (
-      <Alert className={className} variant="destructive">
-        <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Error</AlertTitle>
-        <AlertDescription>Something went terribly wrong.</AlertDescription>
-      </Alert>
-    );
-  }
-
-  const isAnonymousSession = session.user?.email === 'anonymous';
+  const isAnonymousSession = !session?.user?.email;
 
   return (
     <Card className={className}>
