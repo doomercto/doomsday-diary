@@ -19,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 interface PageDefiniton {
   name: string;
@@ -118,7 +119,17 @@ export default function Header() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
-              <CircleUserRound className="h-5 w-5" />
+              <Avatar>
+                {session?.user?.image && (
+                  <AvatarImage
+                    src={session.user.image}
+                    alt={session.user.name ?? ''}
+                  />
+                )}
+                <AvatarFallback>
+                  <CircleUserRound />
+                </AvatarFallback>
+              </Avatar>
               <span className="sr-only">Toggle user menu</span>
             </Button>
           </DropdownMenuTrigger>
