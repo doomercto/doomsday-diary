@@ -30,13 +30,13 @@ import UploadImagePopover from './upload-image-popover';
 const ethAddressRegex = new RegExp(/^(0x)?[0-9a-fA-F]{40}$/);
 
 export const formSchema = z.object({
-  title: z.string().min(1, 'Title is required').max(255),
-  description: z.string().max(1000).optional(),
+  title: z.string().min(1, 'Title is required').max(256),
+  body: z.string().max(1024).optional(),
   anonymous: z.boolean().optional(),
-  image: z.string().max(1000).optional(),
+  image: z.string().max(1024).optional(),
   wallet: z
     .string()
-    .refine(value => ethAddressRegex.test(value), {
+    .refine(value => !value || ethAddressRegex.test(value), {
       message: 'Invalid wallet address',
     })
     .optional(),
@@ -54,8 +54,9 @@ export default function PostForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      description: '',
+      body: '',
       anonymous: true,
+      wallet: '',
     },
   });
 
@@ -115,7 +116,7 @@ export default function PostForm({
             />
             <FormField
               control={form.control}
-              name="description"
+              name="body"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
