@@ -1,5 +1,3 @@
-'use client';
-
 import { Lacquer } from 'next/font/google';
 import Link from 'next/link';
 
@@ -13,20 +11,21 @@ const fontLacquer = Lacquer({
 
 export default function LandingPage() {
   return (
-    <>
-      <div className="absolute h-screen w-screen">
+    <div className="overflow-hidden">
+      <div className="absolute h-svh w-svh">
         <video
           className="h-full w-full object-cover"
           autoPlay
           muted
           loop
+          playsInline
           src="background.mp4"
         />
       </div>
       <div
         className={cn(
           fontLacquer.variable,
-          'font-sans h-screen w-screen flex flex-col items-center justify-center'
+          'font-sans h-svh w-svh flex flex-col items-center justify-center'
         )}
       >
         <div className="h-[60vh] max-sm:hidden" />
@@ -37,6 +36,6 @@ export default function LandingPage() {
           Enter
         </Link>
       </div>
-    </>
+    </div>
   );
 }
