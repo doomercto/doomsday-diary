@@ -72,10 +72,13 @@ export default function PostList() {
     if (!firstPost || hasNew) {
       return () => {};
     }
-    const id = setInterval(async () => {
-      const newPosts = await checkNewPosts({ after: firstPost.timestamp });
-      setHasNew(newPosts);
-    }, 1000 * 60);
+    const id = setInterval(
+      async () => {
+        const newPosts = await checkNewPosts({ after: firstPost.timestamp });
+        setHasNew(newPosts);
+      },
+      1000 * 60 * 2
+    );
 
     return () => clearInterval(id);
   }, [firstPost, hasNew]);
