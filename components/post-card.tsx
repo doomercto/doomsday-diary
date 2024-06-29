@@ -24,8 +24,13 @@ function PostCard({ post }: { post: Post }) {
       <CardHeader>
         <CardTitle>{post.title}</CardTitle>
         {post.body && (
-          <CardDescription className="text-card-foreground">
-            {post.body}
+          <CardDescription className="text-card-foreground gap-2 flex flex-col">
+            {post.body
+              .split('\n')
+              .filter(Boolean)
+              .map((line, index) => (
+                <div key={index}>{line}</div>
+              ))}
           </CardDescription>
         )}
       </CardHeader>
