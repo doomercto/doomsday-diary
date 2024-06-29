@@ -3,6 +3,7 @@
 import { Lacquer } from 'next/font/google';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
 
@@ -14,6 +15,28 @@ const fontLacquer = Lacquer({
 
 export default function LandingPage() {
   const [showEnter, setShowEnter] = useState(false);
+
+  const [autoPlayFailed, setAutoPlayFailed] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const vid = document.createElement('video');
+      vid.src = 'test.mp4';
+      vid.autoplay = true;
+      vid.muted = true;
+      vid.loop = true;
+      vid.playsInline = true;
+      try {
+        await vid.play();
+      } catch (err) {
+        setAutoPlayFailed(true);
+        setShowEnter(true);
+      } finally {
+        vid.remove();
+        vid.srcObject = null;
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -29,14 +52,25 @@ export default function LandingPage() {
       onKeyDown={() => setShowEnter(true)}
     >
       <div className="absolute inset-0 z-10">
-        <video
-          className="h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          src="background.mp4"
-        />
+        {!autoPlayFailed ? (
+          <video
+            className="h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            src="background.mp4"
+          />
+        ) : (
+          <Image
+            className="h-full w-full object-cover"
+            src="/background.png"
+            alt="background"
+            width={0}
+            height={0}
+            sizes="100vw"
+          />
+        )}
       </div>
       <div
         className={cn(
