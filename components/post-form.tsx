@@ -16,6 +16,7 @@ import { Input } from './ui/input';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,16 +28,18 @@ import { Textarea } from './ui/textarea';
 import { toast } from './ui/use-toast';
 import UploadImagePopover from './upload-image-popover';
 
-const ethAddressRegex = new RegExp(/^(0x)?[0-9a-fA-F]{40}$/);
+const ETH_ADDRESS_REGEX = new RegExp(/^(0x)?[0-9a-fA-F]{40}$/);
+
+const DESCRIPTION_MAX_LENGTH = 2048;
 
 export const formSchema = z.object({
   title: z.string().min(1, 'Title is required').max(256),
-  body: z.string().max(1024).optional(),
+  body: z.string().max(DESCRIPTION_MAX_LENGTH).optional(),
   anonymous: z.boolean().optional(),
   image: z.string().max(1024).optional(),
   wallet: z
     .string()
-    .refine(value => !value || ethAddressRegex.test(value), {
+    .refine(value => !value || ETH_ADDRESS_REGEX.test(value), {
       message: 'Invalid wallet address',
     })
     .optional(),
@@ -121,8 +124,14 @@ export default function PostForm({
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea {...field} />
+                    <Textarea {...field} maxLength={DESCRIPTION_MAX_LENGTH} />
                   </FormControl>
+                  {!!field?.value?.length &&
+                    field.value.length > DESCRIPTION_MAX_LENGTH / 2 && (
+                      <FormDescription>
+                        {field.value.length} / {DESCRIPTION_MAX_LENGTH}
+                      </FormDescription>
+                    )}
                   <FormMessage />
                 </FormItem>
               )}

@@ -1,15 +1,8 @@
-import {
-  boolean,
-  pgTable,
-  serial,
-  timestamp,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 export const PostsTable = pgTable('posts', {
   id: serial('id').primaryKey(),
-  anonymous: boolean('anonymous').default(false).notNull(),
-  body: varchar('body', { length: 1024 }),
+  body: varchar('body', { length: 2048 }),
   display_name: varchar('display_name', { length: 1024 }),
   email: varchar('email', { length: 1024 }),
   image: varchar('image', { length: 1024 }),

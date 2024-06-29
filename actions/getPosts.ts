@@ -24,7 +24,7 @@ function toResponse(result: InferSelectModel<typeof PostsTable>): Post {
     title: result.title,
     body: result.body ?? undefined,
     image: result.image ?? undefined,
-    display_name: (!result.anonymous && result.display_name) || undefined,
+    display_name: result.display_name ?? undefined,
     wallet: result.wallet ?? undefined,
     timestamp: result.timestamp.toISOString(),
     nft_url: result.nft_url ?? undefined,

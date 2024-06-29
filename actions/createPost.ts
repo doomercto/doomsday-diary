@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 
 import { db } from '@/drizzle/db';
 import { PostsTable } from '@/drizzle/schema';
+import { hashEmail } from '@/lib/server-utils';
 
 import type { formSchema } from '@/components/post-form';
 import type { z } from 'zod';
@@ -20,11 +21,10 @@ export async function createPost({
   await db.insert(PostsTable).values({
     title,
     body,
-    anonymous,
     image,
     wallet,
-    display_name: session?.user?.name,
-    email: session?.user?.email,
+    display_name: anonymous === false ? session?.user?.name : null,
+    email: session?.user?.email ? hashEmail(session.user.email) : null,
   });
 
   return { status: 'success' };
