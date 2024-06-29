@@ -15,6 +15,7 @@ import RelativeTime from './relative-time';
 import { Separator } from './ui/separator';
 import { Badge } from './ui/badge';
 import WalletAddress from './wallet-address';
+import TruncatedText from './truncated-text';
 
 import type { Post } from '@/actions/getPosts';
 
@@ -24,13 +25,8 @@ function PostCard({ post }: { post: Post }) {
       <CardHeader>
         <CardTitle>{post.title}</CardTitle>
         {post.body && (
-          <CardDescription className="text-card-foreground gap-2 flex flex-col">
-            {post.body
-              .split('\n')
-              .filter(Boolean)
-              .map((line, index) => (
-                <div key={index}>{line}</div>
-              ))}
+          <CardDescription className="text-card-foreground">
+            <TruncatedText text={post.body} />
           </CardDescription>
         )}
       </CardHeader>
