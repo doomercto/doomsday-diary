@@ -41,6 +41,9 @@ export default function AdminPostList({
     async (id: number, status: 'approved' | 'rejected') => {
       const success = await updatePostStatus(id, status);
       if (success) {
+        toast({
+          title: `Post ${status}`,
+        });
         setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
       }
     },
