@@ -1,3 +1,5 @@
+'use server';
+
 import { getSession } from 'next-auth/react';
 import { and, eq } from 'drizzle-orm';
 
