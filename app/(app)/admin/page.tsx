@@ -7,7 +7,7 @@ export default async function Admin() {
   const admin = await isAdmin();
 
   if (!admin) {
-    return <div className="p-4 md:p-10 text-center">Not an admin</div>;
+    return <div className="p-8 md:p-20 text-center">Not an admin</div>;
   }
 
   const pendingPosts = await getPendingPosts();

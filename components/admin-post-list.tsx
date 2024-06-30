@@ -50,6 +50,10 @@ export default function AdminPostList({
     []
   );
 
+  if (!posts.length) {
+    return <div className="p-4 md:p-10 text-center">No pending posts</div>;
+  }
+
   return (
     <div className="space-y-4">
       {posts.map(post => (
