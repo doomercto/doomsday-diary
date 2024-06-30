@@ -11,7 +11,7 @@ export default function TruncatedText({ text }: { text: string }) {
 
   const truncatedText = useMemo(() => {
     let newText = text;
-    const splitText = text.split('\n').filter(Boolean);
+    const splitText = text.split('\n');
     if (splitText.length > 8) {
       newText = splitText.slice(0, 8).join('\n');
     }
@@ -27,7 +27,6 @@ export default function TruncatedText({ text }: { text: string }) {
     () =>
       (isTruncated ? `${truncatedText}…` : text)
         .split('\n')
-        .filter(Boolean)
         .map((line, index) => <p key={index}>{line}</p>),
     [isTruncated, truncatedText, text]
   );
@@ -35,13 +34,13 @@ export default function TruncatedText({ text }: { text: string }) {
   return (
     <div className="gap-2 flex flex-col items-start">
       {textToDisplay}
-      {isTruncated && (
+      {(isTruncated || expanded) && (
         <Button
           variant="link"
           className="text-blue-500 h-8 p-0"
-          onClick={() => setExpanded(true)}
+          onClick={() => setExpanded(!expanded)}
         >
-          Show more
+          Show {expanded ? 'less' : 'more'}
         </Button>
       )}
     </div>
