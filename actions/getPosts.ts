@@ -37,9 +37,13 @@ export async function getPosts({ before }: { before?: string } = {}): Promise<
   const results = await db.query.PostsTable.findMany({
     limit: 10,
     orderBy: [desc(PostsTable.timestamp)],
-    ...(before && {
-      where: (posts, { lt }) => lt(posts.timestamp, new Date(before)),
-    }),
+    where: (posts, { and, eq, lt }) => {
+      const approved = eq(posts.status, 'approved');
+      if (before) {
+        return and(approved, lt(posts.timestamp, new Date(before)));
+      }
+      return approved;
+    },
   });
   return results.map(result => toResponse(result));
 }

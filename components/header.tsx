@@ -3,10 +3,11 @@
 import { CircleUserRound, Menu, Search } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 
 import { cn } from '@/lib/utils';
+import { isAdmin as isAdminRaw } from '@/actions/admin';
 
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from './ui/sheet';
 import { Button } from './ui/button';
@@ -20,6 +21,15 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+
+async function isAdmin(...args: Parameters<typeof isAdminRaw>) {
+  try {
+    const admin = await isAdminRaw(...args);
+    return admin;
+  } catch (err) {
+    return false;
+  }
+}
 
 interface PageDefiniton {
   name: string;
@@ -46,7 +56,29 @@ export default function Header() {
 
   const [sheetOpen, setSheetOpen] = useState(false);
 
+  const [pages, setPages] = useState<ReadonlyArray<PageDefiniton>>(PAGES);
+
   const pathname = usePathname();
+
+  useEffect(() => {
+    (async () => {
+      const admin = await isAdmin();
+      if (admin) {
+        setPages(prevPages => {
+          if (prevPages.find(page => page.path === '/admin')) {
+            return prevPages;
+          }
+          return [
+            ...prevPages,
+            {
+              name: 'Admin',
+              path: '/admin',
+            },
+          ];
+        });
+      }
+    })();
+  }, []);
 
   const homeLink = (
     <Link
@@ -65,7 +97,7 @@ export default function Header() {
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background/70 px-4 md:px-6 backdrop-blur z-30">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         {homeLink}
-        {PAGES.map(route => (
+        {pages.map(route => (
           <Link
             key={route.path}
             href={route.path}
@@ -89,7 +121,7 @@ export default function Header() {
         <SheetContent aria-describedby={undefined} side="left">
           <nav className="grid gap-6 text-lg font-medium">
             {homeLink}
-            {PAGES.map(route => (
+            {pages.map(route => (
               <Link
                 key={route.path}
                 href={route.path}

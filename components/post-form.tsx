@@ -67,12 +67,12 @@ export default function PostForm({
     setSaving(true);
     try {
       const response = await createPost(data);
-      if (response.status !== 'success') {
+      if (response?.status !== 'success') {
         throw new Error();
       }
       onPost?.();
       form.reset();
-      toast({ title: 'Post created' });
+      toast({ title: 'Posted, pending approval' });
     } catch (err) {
       toast({
         title: 'Failed to create post',
