@@ -27,5 +27,21 @@ export async function createPost({
     email: session?.user?.email ? hashEmail(session.user.email) : null,
   });
 
+  if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID) {
+    fetch(
+      `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: process.env.TELEGRAM_CHAT_ID,
+          text: `📢 New post to approve: ${title}`,
+        }),
+      }
+    );
+  }
+
   return { status: 'success' };
 }
