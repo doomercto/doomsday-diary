@@ -28,19 +28,22 @@ export async function createPost({
   });
 
   if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID) {
-    fetch(
-      `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id: process.env.TELEGRAM_CHAT_ID,
-          text: `📢 New post to approve: ${title}`,
-        }),
-      }
-    );
+    await Promise.race([
+      fetch(
+        `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: process.env.TELEGRAM_CHAT_ID,
+            text: `📢 New post to approve: ${title}`,
+          }),
+        }
+      ),
+      new Promise(resolve => setTimeout(resolve, 5000)),
+    ]);
   }
 
   return { status: 'success' };
