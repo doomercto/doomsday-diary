@@ -4,7 +4,6 @@ import Link from 'next/link';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -25,9 +24,9 @@ function PostCard({ post }: { post: Post }) {
       <CardHeader>
         <CardTitle>{post.title}</CardTitle>
         {post.body && (
-          <CardDescription className="text-card-foreground">
+          <div className="text-sm text-card-foreground">
             <TruncatedText text={post.body} />
-          </CardDescription>
+          </div>
         )}
       </CardHeader>
       <CardContent>
