@@ -1,6 +1,6 @@
 'use server';
 
-import { getSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth';
 import { and, eq } from 'drizzle-orm';
 
 import { ReactionsTable } from '@/drizzle/schema';
@@ -10,7 +10,7 @@ import { hashEmail } from '@/lib/server-utils';
 import type { Reaction } from './getPosts';
 
 export async function addReaction(post_id: number, reaction: Reaction['name']) {
-  const session = await getSession();
+  const session = await getServerSession();
   if (!session?.user?.email) {
     return { success: false };
   }
@@ -28,7 +28,7 @@ export async function removeReaction(
   post_id: number,
   reaction: Reaction['name']
 ) {
-  const session = await getSession();
+  const session = await getServerSession();
   if (!session?.user?.email) {
     return { success: false };
   }
