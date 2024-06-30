@@ -12,7 +12,7 @@ import type { ReactNode } from 'react';
 const fontSans = FontSans({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: 'The Dooms Day Diary',
+  title: 'The Doomsday Diary',
   description: '',
 };
 

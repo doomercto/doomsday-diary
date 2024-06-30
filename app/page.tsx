@@ -15,6 +15,7 @@ const fontLacquer = Lacquer({
 
 export default function LandingPage() {
   const [showEnter, setShowEnter] = useState(false);
+  const [showTitle, setShowTitle] = useState(false);
 
   const [autoPlayFailed, setAutoPlayFailed] = useState(false);
 
@@ -41,9 +42,17 @@ export default function LandingPage() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setShowEnter(true);
-    }, 4000);
+    }, 3500);
     return () => clearTimeout(timeout);
   }, []);
+
+  useEffect(() => {
+    if (!showEnter) return () => {};
+    const timeout = setTimeout(() => {
+      setShowTitle(true);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, [showEnter]);
 
   return (
     <div
@@ -75,19 +84,30 @@ export default function LandingPage() {
       <div
         className={cn(
           fontLacquer.variable,
-          'absolute inset-0 font-sans flex flex-col items-center justify-center z-20'
+          'absolute inset-0 px-8 overflow-hidden font-sans flex flex-col items-center justify-center z-20 text-center text-5xl md:text-7xl text-slate-200 drop-shadow-[2px_2px_0px_theme(colors.slate.500)]'
         )}
       >
-        <div className="h-[60vh] max-sm:hidden" />
+        <div className="mx-auto mt-8 opacity-0" aria-hidden>
+          {/* center enter button */}
+          The Doomsday Diary
+        </div>
         <Link
           className={cn(
-            'm-auto text-5xl md:text-7xl text-slate-200 drop-shadow-[2px_2px_0px_theme(colors.slate.500)] opacity-70 hover:opacity-100 cursor-pointer transition-all ease-out duration-1000',
+            'm-auto opacity-70 hover:opacity-100 cursor-pointer transition-[opacity,transform] ease-out duration-1000',
             !showEnter && 'opacity-0 pointer-events-none translate-y-16'
           )}
           href="/feed"
         >
           Enter
         </Link>
+        <div
+          className={cn(
+            'mx-auto mb-8 opacity-70 transition-[opacity,transform] ease-out duration-1000',
+            !showTitle && 'opacity-0 translate-y-16'
+          )}
+        >
+          The Doomsday Diary
+        </div>
       </div>
     </div>
   );
