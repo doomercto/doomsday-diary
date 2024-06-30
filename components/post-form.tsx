@@ -23,10 +23,10 @@ import {
   FormMessage,
 } from './ui/form';
 import { Button } from './ui/button';
-import { Checkbox } from './ui/checkbox';
 import { Textarea } from './ui/textarea';
 import { toast } from './ui/use-toast';
 import UploadImagePopover from './upload-image-popover';
+import { Switch } from './ui/switch';
 
 const ETH_ADDRESS_REGEX = new RegExp(/^(0x)?[0-9a-fA-F]{40}$/);
 
@@ -205,7 +205,7 @@ export default function PostForm({
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                   <FormControl>
-                    <Checkbox
+                    <Switch
                       disabled={isAnonymousSession}
                       checked={field.value}
                       onCheckedChange={field.onChange}
