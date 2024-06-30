@@ -138,8 +138,13 @@ export default function Header() {
         </SheetContent>
       </Sheet>
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-        <form className="ml-auto flex-1 sm:flex-initial">
-          <div className="relative">
+        <form
+          className="ml-auto flex-1 sm:flex-initial"
+          onSubmit={event => {
+            event.preventDefault();
+          }}
+        >
+          <div className="relative hidden">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
