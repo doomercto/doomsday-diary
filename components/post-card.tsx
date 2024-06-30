@@ -15,10 +15,17 @@ import { Separator } from './ui/separator';
 import { Badge } from './ui/badge';
 import WalletAddress from './wallet-address';
 import TruncatedText from './truncated-text';
+import ReactionsBar from './reactions-bar';
 
 import type { Post } from '@/actions/getPosts';
 
-function PostCard({ post }: { post: Post }) {
+function PostCard({
+  post,
+  hideReactions = false,
+}: {
+  post: Post;
+  hideReactions?: boolean;
+}) {
   return (
     <Card className="m-1 md:m-2">
       <CardHeader>
@@ -33,6 +40,9 @@ function PostCard({ post }: { post: Post }) {
         <ImagePreview post={post} />
       </CardContent>
       <CardFooter className="gap-2 flex-wrap">
+        {!hideReactions && (
+          <ReactionsBar post_id={post.id} reactions={post.reactions} />
+        )}
         <small className="text-muted-foreground">
           {post.display_name ?? 'Anonymous'}
         </small>

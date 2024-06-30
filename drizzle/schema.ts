@@ -1,6 +1,9 @@
+import { relations } from 'drizzle-orm';
 import {
+  integer,
   pgEnum,
   pgTable,
+  primaryKey,
   serial,
   timestamp,
   varchar,
@@ -29,3 +32,28 @@ export const AdminsTable = pgTable('admins', {
   email: varchar('email', { length: 1024 }).primaryKey(),
   nickname: varchar('nickname', { length: 1024 }).notNull(),
 });
+
+export const ReactionsTable = pgTable(
+  'reactions',
+  {
+    post_id: integer('post_id')
+      .notNull()
+      .references(() => PostsTable.id, { onDelete: 'cascade' }),
+    email: varchar('email', { length: 1024 }).notNull(),
+    reaction: varchar('reaction', { length: 1024 }).notNull(),
+  },
+  table => ({
+    pk: primaryKey({ columns: [table.post_id, table.email, table.reaction] }),
+  })
+);
+
+export const postsRelations = relations(PostsTable, ({ many }) => ({
+  reactions: many(ReactionsTable),
+}));
+
+export const reactionsRelations = relations(ReactionsTable, ({ one }) => ({
+  post: one(PostsTable, {
+    fields: [ReactionsTable.post_id],
+    references: [PostsTable.id],
+  }),
+}));

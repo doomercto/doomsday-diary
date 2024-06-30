@@ -58,7 +58,7 @@ export default function AdminPostList({
     <div className="space-y-4">
       {posts.map(post => (
         <div key={post.id} className="bg-slate-500 rounded-lg shadow-md p-2">
-          <PostCard post={post} />
+          <PostCard post={post} hideReactions />
           <div className="flex items-center gap-2 m-1 md:m-2">
             <Button
               className="flex-grow"
