@@ -41,7 +41,7 @@ export async function createPost({
             text: `📢 New post to approve: ${title}`,
           }),
         }
-      ),
+      ).catch(() => {}),
       new Promise(resolve => setTimeout(resolve, 5000)),
     ]);
   }
