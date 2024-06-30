@@ -54,7 +54,8 @@ export async function checkNewPosts({
   const afterDate = new Date(after);
   afterDate.setSeconds(afterDate.getSeconds() + 5);
   const newPost = await db.query.PostsTable.findFirst({
-    where: (posts, { gt }) => gt(posts.timestamp, afterDate),
+    where: (posts, { and, eq, gt }) =>
+      and(eq(posts.status, 'approved'), gt(posts.timestamp, afterDate)),
     orderBy: [desc(PostsTable.timestamp)],
   });
   return !!newPost;
