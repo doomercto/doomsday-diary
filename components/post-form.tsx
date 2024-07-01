@@ -218,7 +218,7 @@ export default function PostForm({
             />
             <Button disabled={saving} type="submit">
               {saving && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
-              Post
+              Submit
             </Button>
           </form>
         </Form>

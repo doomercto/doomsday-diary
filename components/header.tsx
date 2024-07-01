@@ -1,17 +1,17 @@
 'use client';
 
-import { CircleUserRound, Menu, Search } from 'lucide-react';
+import { CircleUserRound, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
 import { isAdmin as isAdminRaw } from '@/actions/admin';
 
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from './ui/sheet';
 import { Button } from './ui/button';
-import { Input } from './ui/input';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -138,21 +138,16 @@ export default function Header() {
         </SheetContent>
       </Sheet>
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-        <form
-          className="ml-auto flex-1 sm:flex-initial"
-          onSubmit={event => {
-            event.preventDefault();
-          }}
-        >
-          <div className="relative hidden">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search..."
-              className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-            />
-          </div>
-        </form>
+        <div className="ml-auto flex-1 flex-initial">
+          <Image
+            src="/doomeronbase.png"
+            alt="Doomer"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="w-auto h-8 min-[400px]:h-10 md:h-12"
+          />
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">

@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 import { ImagePreview } from './image-preview';
 import RelativeTime from './relative-time';
@@ -31,12 +32,12 @@ function PostCard({
       <CardHeader>
         <CardTitle>{post.title}</CardTitle>
         {post.body && (
-          <div className="text-sm text-card-foreground">
+          <div className="text-sm text-card-foreground pt-6">
             <TruncatedText text={post.body} />
           </div>
         )}
       </CardHeader>
-      <CardContent>
+      <CardContent className={cn(!post.image && 'pb-2')}>
         <ImagePreview post={post} />
       </CardContent>
       <CardFooter className="gap-2 flex-wrap">

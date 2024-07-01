@@ -15,7 +15,10 @@ export default function Feed() {
   const [refreshKey, setRefreshKey] = useState(0);
   const [accordionValue, setAccordionValue] = useState<string>('');
   return (
-    <div className="p-4 md:p-10 max-w-6xl 2xl:max-w-7xl w-full self-center">
+    <div className="p-4 md:p-10 md:pt-8 max-w-6xl 2xl:max-w-7xl w-full self-center">
+      <h1 className="text-center font-semibold text-3xl md:text-4xl pb-4 md:pb-6">
+        The Doomsday Diary
+      </h1>
       <Accordion
         type="single"
         value={accordionValue}

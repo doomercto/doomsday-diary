@@ -1,4 +1,3 @@
-// import Image from 'next/image';
 import Link from 'next/link';
 
 import { Separator } from '@/components/ui/separator';
@@ -6,15 +5,8 @@ import { Separator } from '@/components/ui/separator';
 export default function About() {
   return (
     <div className="flex flex-col self-center gap-4 p-8 md:p-20 pt-4 md:pt-8 max-w-6xl 2xl:max-w-7xl w-full">
-      {/* <Image
-        className="self-end m-4 md:m-8"
-        src="/base.svg"
-        alt="Base Logo"
-        width={120}
-        height={32}
-      /> */}
       <h1 className="self-center text-center font-semibold text-3xl md:text-4xl">
-        Welcome to The Doomsday Diary
+        The Doomsday Diary
       </h1>
       <p>
         The Doomsday Diary is our submission for the Onchain Summer Buildathon,
