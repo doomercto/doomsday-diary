@@ -25,7 +25,7 @@ export default function About() {
         <video src="/dance.mp4" autoPlay muted loop playsInline />
       </div>
       <p>
-        The Doomsday Diary is DOOMER&nbsp;s submission for the Onchain Summer
+        The Doomsday Diary is DOOMER&apos;s submission for the Onchain Summer
         Buildathon. We are competing in the Social track, aiming to create a
         viral onchain social experience that inspires community engagement all
         summer long and beyond.
