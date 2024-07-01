@@ -25,10 +25,10 @@ export default function About() {
         <video src="/dance.mp4" autoPlay muted loop playsInline />
       </div>
       <p>
-        The Doomsday Diary is our submission for the Onchain Summer Buildathon,
-        backed by Coinbase to inspire creativity and community engagement all
-        summer long. Created by the $DOOMER community, we&apos;re competing in
-        the Social track, aiming to create a viral onchain social experience.
+        The Doomsday Diary is DOOMER&nbsp;s submission for the Onchain Summer
+        Buildathon. We are competing in the Social track, aiming to create a
+        viral onchain social experience that inspires community engagement all
+        summer long and beyond.
       </p>
       <Separator />
       <h2 className="self-center text-center font-semibold text-2xl md:text-3xl">
