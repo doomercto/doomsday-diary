@@ -27,7 +27,7 @@ export default function Feed() {
       <h1
         className={cn(
           lacquer.className,
-          'text-center font-semibold text-3xl md:text-4xl pb-4 md:pb-6'
+          'text-center font-semibold text-3xl min-[375px]:text-4xl md:text-5xl pb-4 md:pb-6'
         )}
       >
         The Doomsday Diary

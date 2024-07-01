@@ -16,7 +16,7 @@ export default function About() {
       <h1
         className={cn(
           lacquer.className,
-          'self-center text-center font-semibold text-3xl md:text-4xl'
+          'self-center text-center font-semibold text-3xl min-[375px]:text-4xl md:text-5xl'
         )}
       >
         The Doomsday Diary
