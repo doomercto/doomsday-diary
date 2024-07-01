@@ -89,7 +89,7 @@ export default function PostForm({
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle>Share your doom story</CardTitle>
+        <CardTitle>Share your DOOM story</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>

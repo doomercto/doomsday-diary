@@ -37,7 +37,7 @@ export default function TruncatedText({ text }: { text: string }) {
       {(isTruncated || expanded) && (
         <Button
           variant="link"
-          className="text-blue-500 h-8 p-0"
+          className="text-blue-500 dark:text-blue-400 h-8 p-0"
           onClick={() => setExpanded(!expanded)}
         >
           Show {expanded ? 'less' : 'more'}

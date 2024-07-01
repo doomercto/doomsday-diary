@@ -13,10 +13,12 @@ const fontSans = FontSans({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: 'The Doomsday Diary',
-  description: '',
+  description:
+    'The Doomsday Diary by $DOOMER: Share your doom stories and learn from others in our onchain forum. Connect, empathize, and grow with the community. Embrace the doom and be part of something unique with $DOOMER.',
   openGraph: {
     title: 'The Doomsday Diary',
-    description: '',
+    description:
+      'The Doomsday Diary by $DOOMER: Share your doom stories and learn from others in our onchain forum. Connect, empathize, and grow with the community. Embrace the doom and be part of something unique with $DOOMER.',
     url: 'https://diary.doomercto.xyz',
     siteName: 'The Doomsday Diary',
     images: [
@@ -30,7 +32,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'The Doomsday Diary',
-    description: '',
+    description:
+      'The Doomsday Diary by $DOOMER: Share your doom stories and learn from others in our onchain forum. Connect, empathize, and grow with the community. Embrace the doom and be part of something unique with $DOOMER.',
     images: ['https://diary.doomercto.xyz/og-image.png'],
   },
 };
