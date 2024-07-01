@@ -109,7 +109,7 @@ export default function PostForm({
               name="title"
               render={({ field }) => (
                 <FormItem className="space-y-1">
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Title of diary entry</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -122,7 +122,7 @@ export default function PostForm({
               name="body"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Description of your DOOM story</FormLabel>
                   <FormControl>
                     <Textarea {...field} maxLength={DESCRIPTION_MAX_LENGTH} />
                   </FormControl>

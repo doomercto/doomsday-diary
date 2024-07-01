@@ -84,7 +84,7 @@ export default function LandingPage() {
       <div
         className={cn(
           fontLacquer.variable,
-          'absolute inset-0 px-8 overflow-hidden font-sans flex flex-col items-center justify-center z-20 text-center text-slate-200 drop-shadow-[2px_2px_0px_theme(colors.slate.500)]'
+          'absolute inset-0 px-8 overflow-hidden font-sans flex flex-col items-center justify-center z-20 text-center text-slate-200'
         )}
       >
         <div className="mx-auto mt-8 opacity-0" aria-hidden>
@@ -93,7 +93,7 @@ export default function LandingPage() {
         </div>
         <Link
           className={cn(
-            'm-auto opacity-70 hover:opacity-100 cursor-pointer transition-[opacity,transform] ease-out duration-1000 text-5xl md:text-7xl',
+            'm-auto opacity-70 hover:opacity-100 cursor-pointer transition-[opacity,transform] ease-out duration-1000 text-5xl md:text-7xl drop-shadow-[2px_2px_0px_theme(colors.slate.500)]',
             !showEnter && 'opacity-0 pointer-events-none translate-y-16'
           )}
           href="/feed"
@@ -102,12 +102,19 @@ export default function LandingPage() {
         </Link>
         <div
           className={cn(
-            'mx-auto mb-8 opacity-70 transition-[opacity,transform] ease-out duration-1000 text-3xl md:text-7xl',
+            'mx-auto mb-8 opacity-70 transition-[opacity,transform] ease-out duration-1000 text-3xl md:text-7xl drop-shadow-[2px_2px_0px_theme(colors.slate.500)]',
             !showTitle && 'opacity-0 translate-y-16'
           )}
         >
           The Doomsday Diary
         </div>
+        <Image
+          className="absolute top-0 right-0 m-4 md:m-8 opacity-70"
+          src="/base.svg"
+          alt="Base Logo"
+          width={120}
+          height={32}
+        />
       </div>
     </div>
   );

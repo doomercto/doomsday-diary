@@ -14,6 +14,25 @@ const fontSans = FontSans({ subsets: ['latin'], variable: '--font-sans' });
 export const metadata: Metadata = {
   title: 'The Doomsday Diary',
   description: '',
+  openGraph: {
+    title: 'The Doomsday Diary',
+    description: '',
+    url: 'https://diary.doomercto.xyz',
+    siteName: 'The Doomsday Diary',
+    images: [
+      {
+        url: 'https://diary.doomercto.xyz/og-image.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'The Doomsday Diary',
+    description: '',
+    images: ['https://diary.doomercto.xyz/og-image.png'],
+  },
 };
 
 export default function RootLayout({
