@@ -1,3 +1,5 @@
+[https://diary.doomercto.xyz](https://diary.doomercto.xyz)
+
 # The Doomsday Diary
 
 The Doomsday Diary is our submission for the Onchain Summer Buildathon, backed by Coinbase to inspire creativity and community engagement all summer long. Created by the $DOOMER community, we're competing in the Social track, aiming to create a viral onchain social experience.
