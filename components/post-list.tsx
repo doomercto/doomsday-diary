@@ -10,6 +10,7 @@ import {
   type Post,
 } from '@/actions/getPosts';
 import { getErrorMessage } from '@/lib/utils';
+import usePageVisibility from '@/hooks/use-page-visibility';
 
 import PostCard from './post-card';
 import { Button } from './ui/button';
@@ -46,6 +47,7 @@ export default function PostList() {
   const [hasMore, setHasMore] = useState(true);
   const [hasNew, setHasNew] = useState(false);
   const { ref: bottomRef, inView: bottomInView } = useInView();
+  const isPageVisible = usePageVisibility();
 
   const loadMore = async () => {
     const oldestTimestamp = posts[posts.length - 1]?.timestamp;
@@ -72,7 +74,7 @@ export default function PostList() {
   const firstPost = posts[0];
 
   useEffect(() => {
-    if (!firstPost || hasNew) {
+    if (!firstPost || hasNew || !isPageVisible) {
       return () => {};
     }
     const id = setInterval(
@@ -80,11 +82,11 @@ export default function PostList() {
         const newPosts = await checkNewPosts({ after: firstPost.timestamp });
         setHasNew(newPosts);
       },
-      1000 * 60 * 2
+      1000 * 60 * 2.5
     );
 
     return () => clearInterval(id);
-  }, [firstPost, hasNew]);
+  }, [firstPost, hasNew, isPageVisible]);
 
   return (
     <>
