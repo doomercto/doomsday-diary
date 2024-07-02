@@ -41,6 +41,7 @@ async function getPosts(...args: Parameters<typeof getPostsRaw>) {
 export default function PostList() {
   const topRef = useRef<HTMLDivElement>(null);
   const [posts, setPosts] = useState([] as Post[]);
+  const [showLoading, setShowLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [hasNew, setHasNew] = useState(false);
@@ -54,6 +55,7 @@ export default function PostList() {
     } else {
       setPosts(prevPosts => [...prevPosts, ...newPosts]);
     }
+    setShowLoading(false);
     setTimeout(() => {
       setLoading(false);
     }, 100);
@@ -61,6 +63,7 @@ export default function PostList() {
 
   useEffect(() => {
     if (bottomInView && hasMore && !loading) {
+      setShowLoading(true);
       setLoading(true);
       loadMore();
     }
@@ -101,14 +104,16 @@ export default function PostList() {
           </Button>
         </div>
       )}
-      {loading && !posts.length && (
-        <LoaderCircle className="animate-spin h-12 w-12 mx-auto" />
-      )}
       <div className="flex flex-col">
         {posts.map(post => (
           <PostCard key={post.id} post={post} />
         ))}
         <div ref={bottomRef} />
+      </div>
+      <div className="h-12 mb-0 md:mb-4">
+        {showLoading && (
+          <LoaderCircle className="animate-spin h-12 w-12 mx-auto" />
+        )}
       </div>
     </>
   );
