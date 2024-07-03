@@ -44,7 +44,7 @@ function PostCard({
         {!hideReactions && (
           <ReactionsBar post_id={post.id} reactions={post.reactions} />
         )}
-        <small className="text-muted-foreground">
+        <small className="text-muted-foreground max-w-full">
           {post.display_name ?? 'Anonymous'}
         </small>
         <Separator orientation="vertical" className="h-5" />

@@ -27,7 +27,11 @@ export default function TruncatedText({ text }: { text: string }) {
     () =>
       (isTruncated ? `${truncatedText}…` : text)
         .split('\n')
-        .map((line, index) => <p key={index}>{line}</p>),
+        .map((line, index) => (
+          <p className="max-w-full" key={index}>
+            {line}
+          </p>
+        )),
     [isTruncated, truncatedText, text]
   );
 
