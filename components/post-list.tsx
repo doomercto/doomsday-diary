@@ -48,6 +48,7 @@ export default function PostList() {
   const [hasNew, setHasNew] = useState(false);
   const { ref: bottomRef, inView: bottomInView } = useInView();
   const isPageVisible = usePageVisibility();
+  const [lastCheck, setLastCheck] = useState(new Date());
 
   const loadMore = async () => {
     const oldestTimestamp = posts[posts.length - 1]?.timestamp;
@@ -77,13 +78,21 @@ export default function PostList() {
     if (!firstPost || hasNew || !isPageVisible) {
       return () => {};
     }
-    const id = setInterval(
-      async () => {
-        const newPosts = await checkNewPosts({ after: firstPost.timestamp });
-        setHasNew(newPosts);
-      },
-      1000 * 60 * 2.5
-    );
+
+    const check = async () => {
+      const newPosts = await checkNewPosts({
+        after: firstPost.timestamp,
+        v2: true,
+      });
+      setHasNew(newPosts);
+      setLastCheck(new Date());
+    };
+
+    if (new Date().getTime() - lastCheck.getTime() > 1000 * 60 * 5) {
+      check();
+    }
+
+    const id = setInterval(check, 1000 * 60 * 10);
 
     return () => clearInterval(id);
   }, [firstPost, hasNew, isPageVisible]);
@@ -97,6 +106,7 @@ export default function PostList() {
             className="backdrop-blur-lg m-1 md:m-2 shadow-2xl z-20"
             onClick={async () => {
               setHasNew(false);
+              setLastCheck(new Date());
               topRef.current?.scrollIntoView({ behavior: 'smooth' });
               const newPosts = await getPosts();
               setPosts(newPosts);

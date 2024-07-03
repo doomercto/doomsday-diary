@@ -109,7 +109,12 @@ export async function getPosts({ before }: { before?: string } = {}): Promise<
 
 export async function checkNewPosts({
   after = new Date().toISOString(),
-}: { after?: string } = {}) {
+  v2,
+}: { after?: string; v2?: boolean } = {}) {
+  if (!v2) {
+    console.log('ignoring request from outdated client');
+    return false;
+  }
   const afterDate = new Date(after);
   afterDate.setSeconds(afterDate.getSeconds() + 5);
   const newPost = await db.query.PostsTable.findFirst({
