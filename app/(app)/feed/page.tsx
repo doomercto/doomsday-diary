@@ -20,8 +20,8 @@ const lacquer = Lacquer({
 });
 
 export default function Feed() {
-  const [refreshKey, setRefreshKey] = useState(0);
   const [accordionValue, setAccordionValue] = useState<string>('');
+
   return (
     <div className="p-4 md:p-10 md:pt-8 max-w-6xl 2xl:max-w-7xl w-full self-center">
       <h1
@@ -43,14 +43,13 @@ export default function Feed() {
           <AccordionContent className="p-1 md:p-2">
             <PostForm
               onPost={() => {
-                setRefreshKey(oldKey => oldKey + 1);
                 setAccordionValue('');
               }}
             />
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-      <PostList key={refreshKey} />
+      <PostList />
     </div>
   );
 }
