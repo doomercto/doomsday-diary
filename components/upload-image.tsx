@@ -74,7 +74,7 @@ export default function UploadImage({
             form.handleSubmit(handleSubmit)();
           }}
         >
-          <div className="px-2">
+          <div className="px-2 text-sm">
             Images hosted by{' '}
             <Link
               className="text-blue-500 dark:text-blue-400"
