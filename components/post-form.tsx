@@ -3,10 +3,11 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { LoaderCircle, Plus, X } from 'lucide-react';
+import { CircleHelp, LoaderCircle, Plus, X } from 'lucide-react';
 import { z } from 'zod';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { PopoverTrigger } from '@radix-ui/react-popover';
 
 import { createPost } from '@/actions/createPost';
 import { getErrorMessage } from '@/lib/utils';
@@ -27,6 +28,7 @@ import { Textarea } from './ui/textarea';
 import { toast } from './ui/use-toast';
 import UploadImagePopover from './upload-image-popover';
 import { Switch } from './ui/switch';
+import { Popover, PopoverContent } from './ui/popover';
 
 const ETH_ADDRESS_REGEX = new RegExp(/^(0x)?[0-9a-fA-F]{40}$/);
 
@@ -208,7 +210,7 @@ export default function PostForm({
               control={form.control}
               name="anonymous"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                <FormItem className="flex flex-row items-center space-y-0">
                   <FormControl>
                     <Switch
                       disabled={isAnonymousSession}
@@ -227,8 +229,27 @@ export default function PostForm({
                       }}
                     />
                   </FormControl>
-                  <FormLabel>Post anonymously</FormLabel>
-                  <FormMessage />
+                  <FormLabel className="ml-3">Post anonymously</FormLabel>
+                  {isAnonymousSession && (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button className="p-0 h-6 w-6 ml-1" variant="ghost">
+                          <CircleHelp className="h-4 w-4" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="text-sm mx-4">
+                        <Button
+                          variant="link"
+                          className="p-0 h-4"
+                          onClick={() => signIn('coinbase')}
+                        >
+                          Sign in
+                        </Button>{' '}
+                        to post with your display name
+                      </PopoverContent>
+                    </Popover>
+                  )}
+                  <FormMessage className="ml-3" />
                 </FormItem>
               )}
             />
