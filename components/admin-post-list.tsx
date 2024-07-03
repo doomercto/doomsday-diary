@@ -66,23 +66,25 @@ export default function AdminPostList({
           className="bg-slate-500 rounded-lg shadow-md p-2 mb-4 md:mb-6"
         >
           <PostCard post={post} hideReactions />
-          <div className="flex items-center gap-2 m-1 md:m-2">
-            <Button
-              className="flex-grow"
-              disabled={loading}
-              variant="destructive"
-              onClick={() => handleUpdatePostStatus(post.id, 'rejected')}
-            >
-              Reject
-            </Button>
-            <Button
-              className="flex-grow"
-              disabled={loading}
-              variant="default"
-              onClick={() => handleUpdatePostStatus(post.id, 'approved')}
-            >
-              Approve
-            </Button>
+          <div className="m-1 md:m-2">
+            <div className="flex items-center gap-4 max-w-2xl mx-auto md:gap-8 lg:gap-12 xl:gap-16 2xl:gap-20">
+              <Button
+                className="flex-1"
+                disabled={loading}
+                variant="destructive"
+                onClick={() => handleUpdatePostStatus(post.id, 'rejected')}
+              >
+                Reject
+              </Button>
+              <Button
+                className="flex-1"
+                disabled={loading}
+                variant="default"
+                onClick={() => handleUpdatePostStatus(post.id, 'approved')}
+              >
+                Approve
+              </Button>
+            </div>
           </div>
         </motion.div>
       ))}
