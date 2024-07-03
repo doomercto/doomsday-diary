@@ -15,15 +15,23 @@ export async function createPost({
   anonymous,
   image,
   wallet,
+  display_name,
 }: z.infer<typeof formSchema>) {
   const session = await getServerSession();
+
+  if (!display_name || !session?.user?.email) {
+    anonymous = true;
+  }
+  if (anonymous !== false) {
+    display_name = undefined;
+  }
 
   await db.insert(PostsTable).values({
     title,
     body,
     image,
     wallet,
-    display_name: anonymous === false ? session?.user?.name : null,
+    display_name: anonymous === false ? display_name : null,
     email: session?.user?.email ? hashEmail(session.user.email) : null,
   });
 

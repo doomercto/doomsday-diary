@@ -43,6 +43,11 @@ export const formSchema = z.object({
       message: 'Invalid wallet address',
     })
     .optional(),
+  display_name: z
+    .string()
+    .min(1, 'Enter a display name or post anonymously')
+    .max(100)
+    .optional(),
 });
 
 export default function PostForm({
@@ -208,7 +213,18 @@ export default function PostForm({
                     <Switch
                       disabled={isAnonymousSession}
                       checked={field.value}
-                      onCheckedChange={field.onChange}
+                      onCheckedChange={checked => {
+                        field.onChange(checked);
+                        if (!checked) {
+                          form.setValue(
+                            'display_name',
+                            session?.user?.name || ''
+                          );
+                          form.clearErrors('display_name');
+                        } else {
+                          form.setValue('display_name', undefined);
+                        }
+                      }}
                     />
                   </FormControl>
                   <FormLabel>Post anonymously</FormLabel>
@@ -216,6 +232,21 @@ export default function PostForm({
                 </FormItem>
               )}
             />
+            {form.getValues('anonymous') === false && (
+              <FormField
+                control={form.control}
+                name="display_name"
+                render={({ field }) => (
+                  <FormItem className="space-y-1">
+                    <FormLabel>Display name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             <Button disabled={saving} type="submit">
               {saving && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
               Submit
