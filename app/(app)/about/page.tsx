@@ -12,7 +12,7 @@ const lacquer = Lacquer({
 
 export default function About() {
   return (
-    <div className="flex flex-col self-center gap-4 p-8 md:p-20 pt-4 md:pt-8 max-w-6xl 2xl:max-w-7xl w-full">
+    <div className="flex flex-col self-center gap-4 p-8 md:p-20 pt-4 md:pt-8 max-w-6xl 2xl:max-w-7xl w-full mb-8">
       <h1
         className={cn(
           lacquer.className,
