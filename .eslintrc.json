@@ -53,5 +53,13 @@
     "react/jsx-boolean-value": "error",
     "react/jsx-no-useless-fragment": "error",
     "react/self-closing-comp": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["actions/**/*.ts", "app/api/**/*.ts"],
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ]
 }

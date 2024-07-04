@@ -49,9 +49,19 @@ export async function createPost({
             text: `📢 New post to approve: ${title}`,
           }),
         }
-      ).catch(() => {}),
-      new Promise(resolve => setTimeout(resolve, 5000)),
-    ]);
+      ).then(response =>
+        response.ok
+          ? response
+          : Promise.reject(`${response.status} ${response.statusText}`)
+      ),
+      new Promise((_resolve, reject) =>
+        setTimeout(() => {
+          reject('timed out');
+        }, 5000)
+      ),
+    ]).catch(err => {
+      console.warn('Failed to send message to Telegram:', err.message || err);
+    });
   }
 
   return { status: 'success' };
