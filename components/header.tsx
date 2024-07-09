@@ -86,7 +86,7 @@ export default function Header() {
       className="flex items-center gap-2 text-lg font-semibold md:text-base"
     >
       <Avatar>
-        <AvatarImage src="favicon.ico" alt="Home" />
+        <AvatarImage src="/icon.png" alt="Home" />
         <AvatarFallback />
       </Avatar>
       <span className="sr-only">Home</span>

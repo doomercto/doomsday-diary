@@ -22,7 +22,7 @@ export default function LandingPage() {
   useEffect(() => {
     (async () => {
       const vid = document.createElement('video');
-      vid.src = 'test.mp4';
+      vid.src = '/test.mp4';
       vid.autoplay = true;
       vid.muted = true;
       vid.loop = true;
@@ -68,7 +68,7 @@ export default function LandingPage() {
             muted
             loop
             playsInline
-            src="background.mp4"
+            src="/background.mp4"
           />
         ) : (
           <Image
