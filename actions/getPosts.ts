@@ -113,7 +113,7 @@ export async function checkNewPosts({
 }: { after?: string; v2?: boolean } = {}) {
   if (!v2) {
     console.log('ignoring request from outdated client');
-    return false;
+    return true;
   }
   const afterDate = new Date(after);
   afterDate.setSeconds(afterDate.getSeconds() + 5);
