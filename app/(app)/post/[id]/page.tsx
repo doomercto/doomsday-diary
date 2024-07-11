@@ -36,6 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: metadata.openGraph?.title
         ? `${post.title} | ${metadata.openGraph.title}`
         : post.title,
+      url: `https://diary.doomercto.xyz/post/${id}`,
       images: post.image ? [post.image] : metadata.openGraph?.images,
     },
     twitter: {

@@ -29,6 +29,7 @@ export const metadata: Metadata = {
         height: 630,
       },
     ],
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
