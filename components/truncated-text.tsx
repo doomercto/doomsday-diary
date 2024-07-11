@@ -4,7 +4,13 @@ import { useMediaQuery } from '@/hooks/use-media-query';
 
 import { Button } from './ui/button';
 
-export default function TruncatedText({ text }: { text: string }) {
+export default function TruncatedText({
+  text,
+  truncate,
+}: {
+  text: string;
+  truncate: boolean;
+}) {
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
   const [expanded, setExpanded] = useState(false);
@@ -21,7 +27,7 @@ export default function TruncatedText({ text }: { text: string }) {
     return newText;
   }, [text, isDesktop]);
 
-  const isTruncated = !expanded && truncatedText !== text;
+  const isTruncated = truncate && !expanded && truncatedText !== text;
 
   const textToDisplay = useMemo(
     () =>

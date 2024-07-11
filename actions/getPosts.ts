@@ -2,6 +2,7 @@
 
 import { desc } from 'drizzle-orm';
 import { getServerSession } from 'next-auth';
+import { cache } from 'react';
 
 import { db } from '@/drizzle/db';
 import { PostsTable } from '@/drizzle/schema';
@@ -106,6 +107,26 @@ export async function getPosts({ before }: { before?: string } = {}): Promise<
   }
   return results.map(result => toResponse(result, hashedEmail));
 }
+
+export const getPost = cache(async (id: number): Promise<Post> => {
+  const sessionPromise = getServerSession();
+  const resultPromise = db.query.PostsTable.findFirst({
+    where: (posts, { and, eq }) =>
+      and(eq(posts.id, id), eq(posts.status, 'approved')),
+    with: {
+      reactions: true,
+    },
+  });
+  const [session, result] = await Promise.all([sessionPromise, resultPromise]);
+  if (!result) {
+    throw new Error('Post not found');
+  }
+  let hashedEmail: string | undefined;
+  if (session?.user?.email) {
+    hashedEmail = hashEmail(session.user.email);
+  }
+  return toResponse(result, hashedEmail);
+});
 
 export async function checkNewPosts({
   after = new Date().toISOString(),

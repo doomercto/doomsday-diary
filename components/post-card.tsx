@@ -1,3 +1,5 @@
+'use client';
+
 import { memo } from 'react';
 import Link from 'next/link';
 
@@ -23,9 +25,11 @@ import type { Post } from '@/actions/getPosts';
 function PostCard({
   post,
   hideReactions = false,
+  truncate = true,
 }: {
   post: Post;
   hideReactions?: boolean;
+  truncate?: boolean;
 }) {
   return (
     <Card className="m-1 md:m-2">
@@ -33,7 +37,7 @@ function PostCard({
         <CardTitle>{post.title}</CardTitle>
         {post.body && (
           <div className="text-sm text-card-foreground pt-6">
-            <TruncatedText text={post.body} />
+            <TruncatedText text={post.body} truncate={truncate} />
           </div>
         )}
       </CardHeader>
