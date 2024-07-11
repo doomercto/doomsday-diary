@@ -36,20 +36,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: metadata.openGraph?.title
         ? `${post.title} | ${metadata.openGraph.title}`
         : post.title,
-      images: [
-        ...(post.image ? [post.image] : []),
-        ...[metadata.openGraph?.images ?? []].flat(),
-      ],
+      images: post.image ? [post.image] : metadata.openGraph?.images,
     },
     twitter: {
       ...metadata.twitter,
       title: metadata.twitter?.title
         ? `${post.title} | ${metadata.twitter.title}`
         : post.title,
-      images: [
-        ...(post.image ? [post.image] : []),
-        ...[metadata.twitter?.images ?? []].flat(),
-      ],
+      images: post.image ? [post.image] : metadata.twitter?.images,
     },
   };
 }
