@@ -15,7 +15,7 @@ function toResponse(result: InferSelectModel<typeof PostsTable>): Post {
   return {
     id: result.id,
     title: result.title,
-    body: result.body ?? undefined,
+    body: result.body?.trim() ?? undefined,
     image: result.image ?? undefined,
     display_name: result.display_name ?? undefined,
     wallet: result.wallet ?? undefined,

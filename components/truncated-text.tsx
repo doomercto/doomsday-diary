@@ -18,11 +18,20 @@ export default function TruncatedText({
   const truncatedText = useMemo(() => {
     let newText = text;
     const splitText = text.split('\n');
-    if (splitText.length > 8) {
-      newText = splitText.slice(0, 8).join('\n');
+    const allowedLines = splitText.reduce((acc, line, index) => {
+      if (index > acc) {
+        return acc;
+      }
+      if (line.length === 0) {
+        return acc + 0.75;
+      }
+      return acc;
+    }, 8);
+    if (splitText.length > allowedLines) {
+      newText = splitText.slice(0, allowedLines).join('\n');
     }
-    if (!isDesktop && newText.length > 1024) {
-      newText = newText.slice(0, 1024);
+    if (!isDesktop && newText.length > 800) {
+      newText = newText.slice(0, 800);
     }
     return newText;
   }, [text, isDesktop]);
