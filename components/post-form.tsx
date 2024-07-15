@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { CircleHelp, LoaderCircle, Plus, X } from 'lucide-react';
 import { z } from 'zod';
 import { signIn, useSession } from 'next-auth/react';
@@ -30,6 +30,8 @@ import UploadImagePopover from './upload-image-popover';
 import { Switch } from './ui/switch';
 import { Popover, PopoverContent } from './ui/popover';
 
+import type { ImageProps } from 'next/image';
+
 const ETH_ADDRESS_REGEX = new RegExp(/^(0x)?[0-9a-fA-F]{40}$/);
 
 const DESCRIPTION_MAX_LENGTH = 2048;
@@ -51,6 +53,22 @@ export const formSchema = z.object({
     .max(100)
     .optional(),
 });
+
+function ImageWithLoading(props: ImageProps) {
+  const [loading, setLoading] = useState(true);
+
+  const handleLoad = useCallback(() => {
+    setLoading(false);
+  }, []);
+
+  return (
+    <>
+      {loading && <LoaderCircle className="h-8 w-8 animate-spin" />}
+      {/* eslint-disable-next-line jsx-a11y/alt-text */}
+      <Image {...props} onLoad={handleLoad} />
+    </>
+  );
+}
 
 export default function PostForm({
   className,
@@ -153,7 +171,7 @@ export default function PostForm({
                       <FormLabel>Image</FormLabel>
                       <FormControl>
                         <div className="flex items-center gap-2">
-                          <Image
+                          <ImageWithLoading
                             src={field.value}
                             alt="Uploaded image"
                             width={0}
