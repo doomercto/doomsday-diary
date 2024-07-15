@@ -23,7 +23,7 @@ export default function Feed() {
   const [accordionValue, setAccordionValue] = useState<string>('');
 
   return (
-    <div className="p-4 md:p-10 md:pt-8 max-w-6xl 2xl:max-w-7xl w-full self-center">
+    <div className="p-4 md:p-10 md:pt-6 lg:pt-8 max-w-6xl 2xl:max-w-7xl w-full self-center">
       <h1
         className={cn(
           lacquer.className,

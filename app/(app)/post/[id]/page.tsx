@@ -80,7 +80,7 @@ export default async function Post({ params }: Props) {
   }
 
   return (
-    <div className="p-4 md:p-10 md:pt-8 max-w-6xl 2xl:max-w-7xl w-full self-center">
+    <div className="p-4 md:p-10 md:pt-6 lg:pt-8 mb-12 max-w-6xl 2xl:max-w-7xl w-full self-center">
       <PostCard post={post} truncate={false} />
     </div>
   );
