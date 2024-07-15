@@ -52,8 +52,7 @@ const AccordionButtonTrigger = forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        // 'flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180',
-        'mx-auto my-1 md:my-2 [&[data-state=open]>div>svg]:rotate-[225deg]',
+        'mx-auto my-1 md:my-2 [&[data-state=open]>div>svg]:rotate-[135deg]',
         className
       )}
       {...props}
@@ -61,11 +60,9 @@ const AccordionButtonTrigger = forwardRef<
       <Button asChild>
         <div className="flex">
           <div>{children}</div>
-          <Plus className="ml-2 w-4 h-4 transition-all" />
+          <Plus className="ml-2 w-4 h-4 transition-transform duration-300" />
         </div>
       </Button>
-      {/* {children} */}
-      {/* <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" /> */}
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ));
