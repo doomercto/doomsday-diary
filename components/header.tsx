@@ -146,6 +146,7 @@ export default function Header() {
             height={0}
             sizes="100vw"
             className="w-auto h-8 min-[400px]:h-10 md:h-12 invert dark:invert-0"
+            priority
           />
         </div>
         <DropdownMenu>
