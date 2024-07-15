@@ -1,4 +1,4 @@
-import { useCallback, useState, type ReactNode } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useMediaQuery } from '@/hooks/use-media-query';
 
@@ -6,6 +6,8 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import UploadImage from './upload-image';
 import { Drawer, DrawerContent, DrawerTrigger } from './ui/drawer';
 import { DialogTitle } from './ui/dialog';
+
+import type { ReactNode } from 'react';
 
 export default function UploadImagePopover({
   trigger,

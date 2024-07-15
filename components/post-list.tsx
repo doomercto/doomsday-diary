@@ -7,7 +7,6 @@ import { LoaderCircle } from 'lucide-react';
 import {
   checkNewPosts as checkNewPostsRaw,
   getPosts as getPostsRaw,
-  type Post,
 } from '@/actions/getPosts';
 import { getErrorMessage } from '@/lib/utils';
 import usePageVisibility from '@/hooks/use-page-visibility';
@@ -15,6 +14,8 @@ import usePageVisibility from '@/hooks/use-page-visibility';
 import PostCard from './post-card';
 import { Button } from './ui/button';
 import { toast } from './ui/use-toast';
+
+import type { Post } from '@/actions/getPosts';
 
 async function checkNewPosts(...args: Parameters<typeof checkNewPostsRaw>) {
   try {
