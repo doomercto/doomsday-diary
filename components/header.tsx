@@ -3,12 +3,12 @@
 import { CircleUserRound, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
-import { isAdmin as isAdminRaw } from '@/actions/admin';
+import { AdminContext } from '@/providers/admin-provider';
 
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from './ui/sheet';
 import { Button } from './ui/button';
@@ -21,15 +21,6 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-
-async function isAdmin(...args: Parameters<typeof isAdminRaw>) {
-  try {
-    const admin = await isAdminRaw(...args);
-    return admin;
-  } catch (err) {
-    return false;
-  }
-}
 
 interface PageDefiniton {
   name: string;
@@ -60,25 +51,26 @@ export default function Header() {
 
   const pathname = usePathname();
 
+  const isAdmin = useContext(AdminContext);
+
   useEffect(() => {
-    (async () => {
-      const admin = await isAdmin();
-      if (admin) {
-        setPages(prevPages => {
-          if (prevPages.find(page => page.path === '/admin')) {
-            return prevPages;
-          }
-          return [
-            ...prevPages,
-            {
-              name: 'Admin',
-              path: '/admin',
-            },
-          ];
-        });
-      }
-    })();
-  }, []);
+    if (isAdmin) {
+      setPages(prevPages => {
+        if (prevPages.find(page => page.path === '/admin')) {
+          return prevPages;
+        }
+        return [
+          ...prevPages,
+          {
+            name: 'Admin',
+            path: '/admin',
+          },
+        ];
+      });
+    } else {
+      setPages(prevPages => prevPages.filter(page => page.path !== '/admin'));
+    }
+  }, [isAdmin]);
 
   const homeLink = (
     <Link
