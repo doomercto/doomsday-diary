@@ -65,7 +65,7 @@ export default function AdminPostList({
           key={post.id}
           className="bg-slate-400 dark:bg-slate-500 rounded-lg shadow-md p-2 mb-4 md:mb-6"
         >
-          <PostCard post={post} hideReactions truncate={false} />
+          <PostCard post={post} hideExtras truncate={false} />
           <div className="m-1 md:m-2">
             <div className="flex items-center gap-4 max-w-2xl mx-auto md:gap-8 lg:gap-12 xl:gap-16 2xl:gap-20">
               <Button
