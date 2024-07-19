@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { CircleHelp, LoaderCircle, Plus, X } from 'lucide-react';
 import { z } from 'zod';
 import { signIn, useSession } from 'next-auth/react';
@@ -11,6 +11,7 @@ import { PopoverTrigger } from '@radix-ui/react-popover';
 
 import { createPost } from '@/actions/createPost';
 import { getErrorMessage } from '@/lib/utils';
+import { AdminContext } from '@/providers/admin-provider';
 
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
@@ -29,6 +30,7 @@ import { toast } from './ui/use-toast';
 import UploadImagePopover from './upload-image-popover';
 import { Switch } from './ui/switch';
 import { Popover, PopoverContent } from './ui/popover';
+import GetAddressButton from './get-address-button';
 
 import type { ImageProps } from 'next/image';
 
@@ -77,6 +79,8 @@ export default function PostForm({
   const { data: session } = useSession();
 
   const [saving, setSaving] = useState(false);
+
+  const isAdmin = useContext(AdminContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -218,7 +222,18 @@ export default function PostForm({
                 <FormItem className="space-y-1">
                   <FormLabel>Wallet address (optional)</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <div className="flex w-full space-x-2">
+                      <Input {...field} />
+                      {isAdmin && (
+                        <GetAddressButton
+                          currentAddress={field.value}
+                          onAddress={address => {
+                            form.clearErrors('wallet');
+                            form.setValue('wallet', address);
+                          }}
+                        />
+                      )}
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
