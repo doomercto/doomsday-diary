@@ -28,12 +28,13 @@ export default function GetAddressButton({
   async function retrieveAddress(provider: any) {
     try {
       // @ts-ignore
-      const addresses: ReadonlyArray<string> = await provider.request({
+      let addresses: ReadonlyArray<string> = await provider.request({
         method: 'eth_requestAccounts',
       });
       if (!addresses.length) {
         throw new Error('No addresses found');
       }
+      addresses = [...new Set(addresses)];
       if (addresses.length > 1) {
         setPickAddresses(addresses);
       } else {
@@ -93,7 +94,7 @@ export default function GetAddressButton({
             {pickAddresses.map(address => (
               <div className="flex items-center space-x-2" key={address}>
                 <RadioGroupItem value={address} id={`radio-${address}`} />
-                <Label htmlFor={`radio-${address}`}>
+                <Label className="font-mono" htmlFor={`radio-${address}`}>
                   {isDesktop
                     ? address
                     : `${address.slice(0, 6)}…${address.slice(-4)}`}
