@@ -56,7 +56,7 @@ export default function LandingPage() {
 
   return (
     <div
-      className="relative h-svh w-svh"
+      className="relative h-svh w-svh select-none"
       onClick={() => setShowEnter(true)}
       onKeyDown={() => setShowEnter(true)}
     >
