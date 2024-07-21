@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { PopoverTrigger } from '@radix-ui/react-popover';
+import dynamic from 'next/dynamic';
 
 import { createPost } from '@/actions/createPost';
 import { getErrorMessage } from '@/lib/utils';
@@ -30,9 +31,10 @@ import { toast } from './ui/use-toast';
 import UploadImagePopover from './upload-image-popover';
 import { Switch } from './ui/switch';
 import { Popover, PopoverContent } from './ui/popover';
-import GetAddressButton from './get-address-button';
 
 import type { ImageProps } from 'next/image';
+
+const GetAddressButton = dynamic(() => import('./get-address-button'));
 
 const ETH_ADDRESS_REGEX = new RegExp(/^(0x)?[0-9a-fA-F]{40}$/);
 
