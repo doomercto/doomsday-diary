@@ -1,4 +1,4 @@
-import { Inter as FontSans } from 'next/font/google';
+import { Inter as FontSans, Roboto_Mono as FontMono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 
 import { cn } from '@/lib/utils';
@@ -11,6 +11,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 const fontSans = FontSans({ subsets: ['latin'], variable: '--font-sans' });
+const fontMono = FontMono({ subsets: ['latin'], variable: '--font-mono' });
 
 export const metadata: Metadata = {
   title: 'The Doomsday Diary',
@@ -47,7 +48,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(fontSans.variable, 'font-sans')}>
+      <body className={cn(fontSans.variable, 'font-sans', fontMono.variable)}>
         <ThemeProvider attribute="class" forcedTheme="dark">
           {children}
           <Toaster />
