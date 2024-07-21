@@ -21,6 +21,7 @@ function GetAddressButton({
   currentAddress?: string;
   onAddress: (address: string) => void;
 }) {
+  const [showModal, setShowModal] = useState(false);
   const [pickAddresses, setPickAddresses] = useState<ReadonlyArray<string>>([]);
 
   const { cb, mm } = useContext(WalletContext);
@@ -36,6 +37,7 @@ function GetAddressButton({
       addresses = [...new Set(addresses)];
       if (addresses.length > 1) {
         setPickAddresses(addresses);
+        setShowModal(true);
       } else {
         onAddress(addresses[0]);
       }
@@ -75,21 +77,14 @@ function GetAddressButton({
           <MetamaskLogo height="2rem" width="2rem" />
         </Button>
       )}
-      <Dialog
-        open={pickAddresses.length > 0}
-        onOpenChange={open => {
-          if (!open) {
-            setPickAddresses([]);
-          }
-        }}
-      >
+      <Dialog open={showModal} onOpenChange={setShowModal}>
         <DialogContent aria-describedby={undefined}>
           <DialogTitle>Select a wallet address</DialogTitle>
           <RadioGroup
             defaultValue={currentAddress}
             onValueChange={value => {
               onAddress(value);
-              setPickAddresses([]);
+              setShowModal(false);
             }}
           >
             {pickAddresses.map(address => (
