@@ -10,6 +10,7 @@
     "lint:fix": "eslint --fix . && prettier --write ."
   },
   "dependencies": {
+    "@coinbase/wallet-sdk": "^4.0.4",
     "@hookform/resolvers": "^3.6.0",
     "@next/env": "14.2.4",
     "@radix-ui/react-accordion": "^1.2.0",
