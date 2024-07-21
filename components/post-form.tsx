@@ -223,7 +223,11 @@ export default function PostForm({
                   <FormLabel>Wallet address (optional)</FormLabel>
                   <FormControl>
                     <div className="flex w-full space-x-2">
-                      <Input {...field} />
+                      <Input
+                        {...field}
+                        placeholder="0x…"
+                        className="font-mono"
+                      />
                       {isAdmin && (
                         <GetAddressButton
                           currentAddress={field.value}

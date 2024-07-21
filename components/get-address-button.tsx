@@ -1,8 +1,7 @@
 import { useContext, useState } from 'react';
 
 import { getErrorMessage } from '@/lib/utils';
-import { WalletContext } from '@/providers/wallet-provider';
-import { useMediaQuery } from '@/hooks/use-media-query';
+import { WalletContext, withWalletProvider } from '@/providers/wallet-provider';
 
 import CoinbaseWalletLogo from './coinbase-wallet-logo';
 import { Button } from './ui/button';
@@ -11,26 +10,26 @@ import { Dialog, DialogContent, DialogTitle } from './ui/dialog';
 import MetamaskLogo from './metamask-logo';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
+import WalletAddress from './wallet-address';
 
-export default function GetAddressButton({
+import type { EthereumProvider } from '@/global';
+
+function GetAddressButton({
   currentAddress,
   onAddress,
 }: {
   currentAddress?: string;
   onAddress: (address: string) => void;
 }) {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
-
   const [pickAddresses, setPickAddresses] = useState<ReadonlyArray<string>>([]);
 
   const { cb, mm } = useContext(WalletContext);
 
-  async function retrieveAddress(provider: any) {
+  async function retrieveAddress(provider: EthereumProvider) {
     try {
-      // @ts-ignore
-      let addresses: ReadonlyArray<string> = await provider.request({
+      let addresses = (await provider.request({
         method: 'eth_requestAccounts',
-      });
+      })) as ReadonlyArray<string>;
       if (!addresses.length) {
         throw new Error('No addresses found');
       }
@@ -58,6 +57,7 @@ export default function GetAddressButton({
             event.preventDefault();
             retrieveAddress(cb);
           }}
+          aria-label="Get address from Coinbase Wallet"
         >
           <CoinbaseWalletLogo height="2rem" width="2rem" />
         </Button>
@@ -70,6 +70,7 @@ export default function GetAddressButton({
             event.preventDefault();
             retrieveAddress(mm);
           }}
+          aria-label="Get address from Metamask"
         >
           <MetamaskLogo height="2rem" width="2rem" />
         </Button>
@@ -82,7 +83,7 @@ export default function GetAddressButton({
           }
         }}
       >
-        <DialogContent className="maax-w-xs" aria-describedby={undefined}>
+        <DialogContent aria-describedby={undefined}>
           <DialogTitle>Select a wallet address</DialogTitle>
           <RadioGroup
             defaultValue={currentAddress}
@@ -94,10 +95,8 @@ export default function GetAddressButton({
             {pickAddresses.map(address => (
               <div className="flex items-center space-x-2" key={address}>
                 <RadioGroupItem value={address} id={`radio-${address}`} />
-                <Label className="font-mono" htmlFor={`radio-${address}`}>
-                  {isDesktop
-                    ? address
-                    : `${address.slice(0, 6)}…${address.slice(-4)}`}
+                <Label htmlFor={`radio-${address}`}>
+                  <WalletAddress address={address} asBadge={false} />
                 </Label>
               </div>
             ))}
@@ -107,3 +106,5 @@ export default function GetAddressButton({
     </>
   );
 }
+
+export default withWalletProvider(GetAddressButton);

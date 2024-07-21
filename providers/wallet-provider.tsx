@@ -1,14 +1,13 @@
-// @ts-nocheck
-
 'use client';
 
 import { createContext, useEffect, useState } from 'react';
 
-import type { ReactNode } from 'react';
+import type { EthereumProvider } from '@/global';
+import type { ReactNode, ComponentType } from 'react';
 
 export interface WalletProviders {
-  cb?: any;
-  mm?: any;
+  cb?: EthereumProvider;
+  mm?: EthereumProvider;
 }
 
 export const WalletContext = createContext<WalletProviders>({});
@@ -36,4 +35,10 @@ export default function WalletProvider({ children }: { children: ReactNode }) {
       {children}
     </WalletContext.Provider>
   );
+}
+
+export function withWalletProvider<P extends {}>(Component: ComponentType<P>) {
+  return function WalletProviderComponent(props: P) {
+    return <WalletProvider>{<Component {...props} />}</WalletProvider>;
+  };
 }
