@@ -60,7 +60,7 @@ function PostCard({
                   onClick={() => {
                     try {
                       navigator.clipboard.writeText(
-                        `https://diary.doomercto.xyz/post/${post.id}`
+                        `${location.origin}/post/${post.id}`
                       );
                       toast({
                         title: 'Post URL copied to clipboard',
