@@ -23,10 +23,13 @@ export default function TruncatedText({
         return acc;
       }
       if (line.length === 0) {
-        return acc + 0.75;
+        if (index > 0 && splitText[index - 1].length > 0) {
+          return acc + 1;
+        }
+        return acc + 0.5;
       }
       return acc;
-    }, 8);
+    }, 7);
     if (splitText.length > allowedLines) {
       newText = splitText.slice(0, allowedLines).join('\n');
     }
