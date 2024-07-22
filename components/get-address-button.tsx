@@ -2,15 +2,17 @@ import { useContext, useState } from 'react';
 
 import { getErrorMessage } from '@/lib/utils';
 import { WalletContext, withWalletProvider } from '@/providers/wallet-provider';
+import { useMediaQuery } from '@/hooks/use-media-query';
 
 import CoinbaseWalletLogo from './coinbase-wallet-logo';
 import { Button } from './ui/button';
 import { toast } from './ui/use-toast';
-import { Dialog, DialogContent, DialogTitle } from './ui/dialog';
+import { Dialog, DialogContent, DialogFooter, DialogTitle } from './ui/dialog';
 import MetamaskLogo from './metamask-logo';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 import WalletAddress from './wallet-address';
+import { Drawer, DrawerContent, DrawerTitle } from './ui/drawer';
 
 import type { EthereumProvider } from '@/global';
 
@@ -21,8 +23,11 @@ function GetAddressButton({
   currentAddress?: string;
   onAddress: (address: string) => void;
 }) {
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+
   const [showModal, setShowModal] = useState(false);
   const [pickAddresses, setPickAddresses] = useState<ReadonlyArray<string>>([]);
+  const [selectedAddress, setSelectedAddress] = useState<string>('');
 
   const { cb, mm } = useContext(WalletContext);
 
@@ -37,6 +42,7 @@ function GetAddressButton({
       addresses = [...new Set(addresses)];
       if (addresses.length > 1) {
         setPickAddresses(addresses);
+        setSelectedAddress(currentAddress ?? '');
         setShowModal(true);
       } else {
         onAddress(addresses[0]);
@@ -49,6 +55,42 @@ function GetAddressButton({
       });
     }
   }
+
+  const validSelection =
+    selectedAddress && pickAddresses.includes(selectedAddress);
+
+  const radioGroup = (
+    <div className="p-1 max-h-[75vh] overflow-y-auto">
+      <RadioGroup
+        value={selectedAddress}
+        onValueChange={value => {
+          setSelectedAddress(value);
+        }}
+      >
+        {pickAddresses.map(address => (
+          <div className="flex items-center space-x-2" key={address}>
+            <RadioGroupItem value={address} id={`radio-${address}`} />
+            <Label htmlFor={`radio-${address}`}>
+              <WalletAddress address={address} asBadge={false} />
+            </Label>
+          </div>
+        ))}
+      </RadioGroup>
+    </div>
+  );
+
+  const selectButton = (
+    <Button
+      disabled={!validSelection}
+      onClick={() => {
+        onAddress(selectedAddress);
+        setShowModal(false);
+      }}
+    >
+      Select
+    </Button>
+  );
+
   return (
     <>
       {cb && (
@@ -77,27 +119,30 @@ function GetAddressButton({
           <MetamaskLogo height="2rem" width="2rem" />
         </Button>
       )}
-      <Dialog open={showModal} onOpenChange={setShowModal}>
+      <Dialog
+        open={showModal && isDesktop}
+        onOpenChange={open => {
+          if (isDesktop) setShowModal(open);
+        }}
+      >
         <DialogContent aria-describedby={undefined}>
           <DialogTitle>Select a wallet address</DialogTitle>
-          <RadioGroup
-            defaultValue={currentAddress}
-            onValueChange={value => {
-              onAddress(value);
-              setShowModal(false);
-            }}
-          >
-            {pickAddresses.map(address => (
-              <div className="flex items-center space-x-2" key={address}>
-                <RadioGroupItem value={address} id={`radio-${address}`} />
-                <Label htmlFor={`radio-${address}`}>
-                  <WalletAddress address={address} asBadge={false} />
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
+          {radioGroup}
+          <DialogFooter>{selectButton}</DialogFooter>
         </DialogContent>
       </Dialog>
+      <Drawer
+        open={showModal && !isDesktop}
+        onOpenChange={open => {
+          if (!isDesktop) setShowModal(open);
+        }}
+      >
+        <DrawerContent className="mb-8 px-6" aria-describedby={undefined}>
+          <DrawerTitle className="py-4">Select a wallet address</DrawerTitle>
+          <div className="pb-4">{radioGroup}</div>
+          {selectButton}
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
