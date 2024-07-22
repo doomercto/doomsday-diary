@@ -4,8 +4,7 @@ import { useMediaQuery } from '@/hooks/use-media-query';
 
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import UploadImage from './upload-image';
-import { Drawer, DrawerContent, DrawerTrigger } from './ui/drawer';
-import { DialogTitle } from './ui/dialog';
+import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from './ui/drawer';
 
 import type { ReactNode } from 'react';
 
@@ -34,8 +33,8 @@ export default function UploadImagePopover({
     return (
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>{trigger}</DrawerTrigger>
-        <DrawerContent className="mb-8">
-          <DialogTitle className="px-6 py-4">Upload Image</DialogTitle>
+        <DrawerContent className="mb-8" aria-describedby={undefined}>
+          <DrawerTitle className="px-6 py-4">Upload Image</DrawerTitle>
           <UploadImage onUpload={handleUpload} />
         </DrawerContent>
       </Drawer>
