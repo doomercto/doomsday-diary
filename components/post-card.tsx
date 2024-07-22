@@ -57,7 +57,6 @@ function PostCard({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem
-                  className="cursor-pointer"
                   onClick={() => {
                     try {
                       navigator.clipboard.writeText(
