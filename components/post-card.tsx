@@ -49,7 +49,7 @@ function PostCard({
         <div className="flex">
           <CardTitle className="flex-1 max-w-full">{post.title}</CardTitle>
           {isAdmin && !hideExtras && (
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="ml-4 p-0 h-6 w-6">
                   <EllipsisVertical className="h-4 w-4" />
