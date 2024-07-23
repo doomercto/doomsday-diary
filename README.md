@@ -26,6 +26,7 @@ Join us in sharing, learning, and building a stronger community through The Doom
 - [Visit our website](https://doomercto.xyz)
 - [Join our community chat](https://t.me/doomercto)
 - [Follow us on Twitter](https://twitter.com/doomeronbasecto)
+- [Buy $DOOMER](https://flooz.xyz/Doomer)
 
 ## Technologies used
 
