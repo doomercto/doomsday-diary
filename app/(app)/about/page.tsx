@@ -57,31 +57,39 @@ export default function About() {
       <h2 className="self-center text-center font-semibold text-2xl md:text-3xl">
         How Does It Work?
       </h2>
-      <ul className="list-disc pl-6 space-y-2">
-        <div className="relative -left-6">Posting Stories:</div>
-        <li>
-          Users can post their doom stories anonymously or under their Coinbase
-          username.
-        </li>
-        <div className="relative -left-6 pt-2">Reactions:</div>
-        <li>
-          Readers can engage with posts using one of the five available
-          reactions.
-        </li>
-        <div className="relative -left-6 pt-2">Secure Login:</div>
-        <li>
-          To post or react, users need to log in through the Coinbase login
-          flow. This ensures secure and verified interactions while keeping
-          Coinbase funds unconnected. Users can choose to remain anonymous or
-          display their username when posting.
-        </li>
-        <div className="relative -left-6 pt-2">Optional Wallet Display:</div>
-
-        <li>
-          Posters can include their Ethereum wallet address, allowing readers to
-          view the wallet&apos;s BaseScan page or send donations if they wish.
-        </li>
-      </ul>
+      <div className="space-y-2">
+        <p>Posting Stories:</p>
+        <ul className="list-disc pl-6">
+          <li>
+            Users can post their doom stories anonymously or under their
+            Coinbase username.
+          </li>
+        </ul>
+        <p>Reactions:</p>
+        <ul className="list-disc pl-6">
+          <li>
+            Readers can engage with posts using one of the five available
+            reactions.
+          </li>
+        </ul>
+        <p>Secure Login:</p>
+        <ul className="list-disc pl-6">
+          <li>
+            To post or react, users need to log in through the Coinbase login
+            flow. This ensures secure and verified interactions while keeping
+            Coinbase funds unconnected. Users can choose to remain anonymous or
+            display their username when posting.
+          </li>
+        </ul>
+        <p>Optional Wallet Display:</p>
+        <ul className="list-disc pl-6">
+          <li>
+            Posters can include their Ethereum wallet address, allowing readers
+            to view the wallet&apos;s BaseScan page or send donations if they
+            wish.
+          </li>
+        </ul>
+      </div>
       <Separator />
       <p>
         Join us in sharing, learning, and building a stronger community through
@@ -115,6 +123,14 @@ export default function About() {
             href="https://twitter.com/doomeronbasecto"
           >
             🔗 Follow us on Twitter
+          </Link>
+        </li>
+        <li>
+          <Link
+            className="text-blue-500 dark:text-blue-400"
+            href="https://flooz.xyz/Doomer"
+          >
+            🔗 Buy $DOOMER
           </Link>
         </li>
       </ul>
