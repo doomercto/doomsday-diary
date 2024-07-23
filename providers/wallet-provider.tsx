@@ -3,41 +3,56 @@
 import { createContext, useEffect, useState } from 'react';
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 
-import type { EthereumProvider } from '@/global';
+import type { ProviderInterface } from '@coinbase/wallet-sdk';
 import type { ReactNode, ComponentType } from 'react';
 
-export interface WalletProviders {
-  cb?: EthereumProvider;
+interface InjectedProvider extends ProviderInterface {
+  isCoinbaseWallet?: boolean;
+  providers?: ReadonlyArray<InjectedProvider>;
 }
 
-export const WalletContext = createContext<WalletProviders>({});
+interface EthereumWindow extends Window {
+  ethereum?: InjectedProvider;
+}
+
+export interface WalletContextObj {
+  eth?: ProviderInterface;
+  logo?: string;
+}
+
+export const WalletContext = createContext<WalletContextObj>({});
 
 export default function WalletProvider({ children }: { children: ReactNode }) {
-  const [providers, setProviders] = useState<WalletProviders>({});
+  const [context, setContext] = useState<WalletContextObj>({});
   useEffect(() => {
-    const providersMap: WalletProviders = {};
-    if (window?.ethereum) {
-      if (window.ethereum.providers) {
-        providersMap.cb = window.ethereum.providers.find(
+    const contextObj: WalletContextObj = {};
+
+    const sdk = new CoinbaseWalletSDK({
+      appName: 'The Doomsday Diary',
+      appLogoUrl: `${location.origin}/icon.png`,
+    });
+
+    const ethWindow = window as EthereumWindow;
+
+    if (ethWindow?.ethereum) {
+      if (ethWindow.ethereum.providers) {
+        contextObj.eth = ethWindow.ethereum.providers.find(
           p => p.isCoinbaseWallet
         );
-      } else if (window.ethereum.isCoinbaseWallet) {
-        providersMap.cb = window.ethereum;
+      } else if (ethWindow.ethereum.isCoinbaseWallet) {
+        contextObj.eth = ethWindow.ethereum;
       }
     }
-    if (!providersMap.cb) {
-      const cb = new CoinbaseWalletSDK({
-        appName: 'The Doomsday Diary',
-        appLogoUrl: `${location.origin}/icon.png`,
-      });
-      providersMap.cb = cb.makeWeb3Provider() as unknown as EthereumProvider;
+    if (!contextObj.eth) {
+      contextObj.eth = sdk.makeWeb3Provider();
     }
-    setProviders(providersMap);
+
+    contextObj.logo = sdk.getCoinbaseWalletLogo('standard');
+
+    setContext(contextObj);
   }, []);
   return (
-    <WalletContext.Provider value={providers}>
-      {children}
-    </WalletContext.Provider>
+    <WalletContext.Provider value={context}>{children}</WalletContext.Provider>
   );
 }
 

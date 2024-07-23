@@ -4,7 +4,6 @@ import { getErrorMessage } from '@/lib/utils';
 import { WalletContext, withWalletProvider } from '@/providers/wallet-provider';
 import { useMediaQuery } from '@/hooks/use-media-query';
 
-import CoinbaseWalletLogo from './coinbase-wallet-logo';
 import { Button } from './ui/button';
 import { toast } from './ui/use-toast';
 import { Dialog, DialogContent, DialogFooter, DialogTitle } from './ui/dialog';
@@ -26,14 +25,14 @@ function GetAddressButton({
   const [pickAddresses, setPickAddresses] = useState<ReadonlyArray<string>>([]);
   const [selectedAddress, setSelectedAddress] = useState<string>('');
 
-  const { cb } = useContext(WalletContext);
+  const { eth, logo } = useContext(WalletContext);
 
   async function retrieveAddress() {
     try {
-      if (!cb) {
+      if (!eth) {
         throw new Error('No provider found');
       }
-      let addresses = (await cb.request({
+      let addresses = (await eth.request({
         method: 'eth_requestAccounts',
       })) as ReadonlyArray<string>;
       if (!addresses.length) {
@@ -93,17 +92,22 @@ function GetAddressButton({
 
   return (
     <>
-      {cb && (
+      {eth && logo && (
         <Button
           variant="secondary"
-          className="p-2"
+          className="p-1 w-12"
           onClick={event => {
             event.preventDefault();
             retrieveAddress();
           }}
           aria-label="Get address from Coinbase Wallet"
         >
-          <CoinbaseWalletLogo height="2rem" width="2rem" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={logo}
+            alt="Coinbase Wallet logo"
+            className="rounded-lg w-8"
+          />
         </Button>
       )}
       <Dialog
