@@ -1,6 +1,5 @@
 interface EthereumProvider {
   isCoinbaseWallet?: boolean;
-  isMetaMask?: boolean;
   providers?: ReadonlyArray<EthereumProvider>;
   request: (args: {
     method: String;

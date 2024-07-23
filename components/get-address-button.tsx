@@ -8,13 +8,10 @@ import CoinbaseWalletLogo from './coinbase-wallet-logo';
 import { Button } from './ui/button';
 import { toast } from './ui/use-toast';
 import { Dialog, DialogContent, DialogFooter, DialogTitle } from './ui/dialog';
-import MetamaskLogo from './metamask-logo';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 import WalletAddress from './wallet-address';
 import { Drawer, DrawerContent, DrawerTitle } from './ui/drawer';
-
-import type { EthereumProvider } from '@/global';
 
 function GetAddressButton({
   currentAddress,
@@ -29,11 +26,14 @@ function GetAddressButton({
   const [pickAddresses, setPickAddresses] = useState<ReadonlyArray<string>>([]);
   const [selectedAddress, setSelectedAddress] = useState<string>('');
 
-  const { cb, mm } = useContext(WalletContext);
+  const { cb } = useContext(WalletContext);
 
-  async function retrieveAddress(provider: EthereumProvider) {
+  async function retrieveAddress() {
     try {
-      let addresses = (await provider.request({
+      if (!cb) {
+        throw new Error('No provider found');
+      }
+      let addresses = (await cb.request({
         method: 'eth_requestAccounts',
       })) as ReadonlyArray<string>;
       if (!addresses.length) {
@@ -99,24 +99,11 @@ function GetAddressButton({
           className="p-2"
           onClick={event => {
             event.preventDefault();
-            retrieveAddress(cb);
+            retrieveAddress();
           }}
           aria-label="Get address from Coinbase Wallet"
         >
           <CoinbaseWalletLogo height="2rem" width="2rem" />
-        </Button>
-      )}
-      {mm && (
-        <Button
-          variant="secondary"
-          className="p-2"
-          onClick={event => {
-            event.preventDefault();
-            retrieveAddress(mm);
-          }}
-          aria-label="Get address from Metamask"
-        >
-          <MetamaskLogo height="2rem" width="2rem" />
         </Button>
       )}
       <Dialog

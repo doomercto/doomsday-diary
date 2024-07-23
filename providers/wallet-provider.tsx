@@ -8,7 +8,6 @@ import type { ReactNode, ComponentType } from 'react';
 
 export interface WalletProviders {
   cb?: EthereumProvider;
-  mm?: EthereumProvider;
 }
 
 export const WalletContext = createContext<WalletProviders>({});
@@ -22,11 +21,8 @@ export default function WalletProvider({ children }: { children: ReactNode }) {
         providersMap.cb = window.ethereum.providers.find(
           p => p.isCoinbaseWallet
         );
-        providersMap.mm = window.ethereum.providers.find(p => p.isMetaMask);
       } else if (window.ethereum.isCoinbaseWallet) {
         providersMap.cb = window.ethereum;
-      } else if (window.ethereum.isMetaMask) {
-        providersMap.mm = window.ethereum;
       }
     }
     if (!providersMap.cb) {
