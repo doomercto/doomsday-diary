@@ -68,7 +68,7 @@ export async function updatePostStatus(
   if (status === 'approved') {
     await sendTelegramMessage({
       chat_id: process.env.TELEGRAM_NEWPOST_CHAT_ID,
-      text: `📢 New Doomsday Diary post: https://diary.doomercto.xyz/post/${id}`,
+      text: `📢 NEW DOOMSDAY DIARY POST: https://diary.doomercto.xyz/post/${id}`,
     }).catch(err => {
       console.warn('Failed to send message to Telegram:', err.message || err);
     });
