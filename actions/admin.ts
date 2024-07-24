@@ -5,7 +5,7 @@ import { asc, eq as equals } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 import { db } from '@/drizzle/db';
-import { hashEmail } from '@/lib/server-utils';
+import { hashEmail, sendTelegramMessage } from '@/lib/server-utils';
 import { AdminsTable, PostsTable } from '@/drizzle/schema';
 
 import type { InferSelectModel } from 'drizzle-orm';
@@ -64,5 +64,15 @@ export async function updatePostStatus(
   }
   await db.update(PostsTable).set({ status }).where(equals(PostsTable.id, id));
   revalidatePath('/admin');
+
+  if (status === 'approved') {
+    await sendTelegramMessage({
+      chat_id: process.env.TELEGRAM_NEWPOST_CHAT_ID,
+      text: `📢 New Doomsday Diary post: https://diary.doomercto.xyz/post/${id}`,
+    }).catch(err => {
+      console.warn('Failed to send message to Telegram:', err.message || err);
+    });
+  }
+
   return { success: true };
 }
