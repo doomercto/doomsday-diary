@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { CircleHelp, LoaderCircle, Plus, X } from 'lucide-react';
 import { z } from 'zod';
 import { signIn, useSession } from 'next-auth/react';
@@ -12,7 +12,6 @@ import dynamic from 'next/dynamic';
 
 import { createPost } from '@/actions/createPost';
 import { getErrorMessage } from '@/lib/utils';
-import { AdminContext } from '@/providers/admin-provider';
 
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
@@ -81,8 +80,6 @@ export default function PostForm({
   const { data: session } = useSession();
 
   const [saving, setSaving] = useState(false);
-
-  const isAdmin = useContext(AdminContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -230,15 +227,13 @@ export default function PostForm({
                         placeholder="0x…"
                         className="font-mono"
                       />
-                      {isAdmin && (
-                        <GetAddressButton
-                          currentAddress={field.value}
-                          onAddress={address => {
-                            form.clearErrors('wallet');
-                            form.setValue('wallet', address);
-                          }}
-                        />
-                      )}
+                      <GetAddressButton
+                        currentAddress={field.value}
+                        onAddress={address => {
+                          form.clearErrors('wallet');
+                          form.setValue('wallet', address);
+                        }}
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />
