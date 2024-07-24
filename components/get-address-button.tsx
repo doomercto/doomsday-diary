@@ -11,6 +11,12 @@ import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 import WalletAddress from './wallet-address';
 import { Drawer, DrawerContent, DrawerTitle } from './ui/drawer';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from './ui/tooltip';
 
 function GetAddressButton({
   currentAddress,
@@ -93,22 +99,31 @@ function GetAddressButton({
   return (
     <>
       {eth && logo && (
-        <Button
-          variant="secondary"
-          className="p-1 w-12"
-          onClick={event => {
-            event.preventDefault();
-            retrieveAddress();
-          }}
-          aria-label="Get address from Coinbase Wallet"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={logo}
-            alt="Coinbase Wallet logo"
-            className="rounded-lg w-8"
-          />
-        </Button>
+        <TooltipProvider delayDuration={100}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="secondary"
+                className="p-1 w-12"
+                onClick={event => {
+                  event.preventDefault();
+                  retrieveAddress();
+                }}
+                aria-label="Get address from Coinbase Wallet"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={logo}
+                  alt="Coinbase Wallet logo"
+                  className="rounded-lg w-8"
+                />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent className="mx-4">
+              <p>Get address from Coinbase Wallet</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       )}
       <Dialog
         open={showModal && isDesktop}
