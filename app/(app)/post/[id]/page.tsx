@@ -80,7 +80,15 @@ export default async function Post({ params }: Props) {
   }
 
   return (
-    <div className="p-4 md:p-10 md:pt-6 lg:pt-8 mb-12 max-w-6xl 2xl:max-w-7xl w-full self-center">
+    <div className="p-4 md:p-10 md:pt-2 lg:pt-4 mb-12 max-w-6xl 2xl:max-w-7xl w-full self-center">
+      <small>
+        <Link
+          className="p-1 m-3 text-muted-foreground transition-colors hover:text-foreground"
+          href="/feed"
+        >
+          ← Back to feed
+        </Link>
+      </small>
       <PostCard post={post} truncate={false} />
     </div>
   );
