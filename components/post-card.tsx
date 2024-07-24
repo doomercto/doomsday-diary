@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useContext } from 'react';
+import { memo } from 'react';
 import Link from 'next/link';
 import { EllipsisVertical } from 'lucide-react';
 
@@ -12,7 +12,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { AdminContext } from '@/providers/admin-provider';
 
 import { ImagePreview } from './image-preview';
 import RelativeTime from './relative-time';
@@ -41,14 +40,12 @@ function PostCard({
   hideExtras?: boolean;
   truncate?: boolean;
 }) {
-  const isAdmin = useContext(AdminContext);
-
   return (
     <Card className="m-1 md:m-2">
       <CardHeader>
         <div className="flex">
           <CardTitle className="flex-1 max-w-full">{post.title}</CardTitle>
-          {isAdmin && !hideExtras && (
+          {!hideExtras && (
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="ml-4 p-0 h-6 w-6">
