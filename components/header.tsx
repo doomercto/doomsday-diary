@@ -42,6 +42,12 @@ const PAGES: ReadonlyArray<PageDefiniton> = [
   },
 ];
 
+function isPageActive(currentPath: string, routePath: string) {
+  return routePath === '/'
+    ? currentPath === routePath
+    : currentPath.startsWith(routePath);
+}
+
 export default function Header() {
   const { data: session } = useSession();
 
@@ -95,7 +101,7 @@ export default function Header() {
             href={route.path}
             className={cn(
               'text-muted-foreground transition-colors hover:text-foreground',
-              { 'text-foreground': route.path === pathname }
+              { 'text-foreground': isPageActive(pathname, route.path) }
             )}
           >
             {route.name}
@@ -119,7 +125,7 @@ export default function Header() {
                 href={route.path}
                 className={cn(
                   'text-muted-foreground transition-colors hover:text-foreground',
-                  { 'text-foreground': route.path === pathname }
+                  { 'text-foreground': isPageActive(pathname, route.path) }
                 )}
                 onClick={() => setSheetOpen(false)}
               >

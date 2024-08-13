@@ -1,14 +1,13 @@
 'use server';
 
-import { desc } from 'drizzle-orm';
+import { count, desc, eq as equals } from 'drizzle-orm';
 import { getServerSession } from 'next-auth';
 import { cache } from 'react';
 
 import { db } from '@/drizzle/db';
-import { PostsTable } from '@/drizzle/schema';
+import { PostsTable, ReactionsTable } from '@/drizzle/schema';
 import { hashEmail } from '@/lib/server-utils';
 
-import type { ReactionsTable } from '@/drizzle/schema';
 import type { InferSelectModel } from 'drizzle-orm';
 
 const REACTIONS = ['fire', 'heart', 'laugh', 'cry', 'bulb'] as const;
@@ -144,4 +143,49 @@ export async function checkNewPosts({
     orderBy: [desc(PostsTable.timestamp)],
   });
   return !!newPost;
+}
+
+export async function getTopPostIds({
+  limit = 50,
+}: { limit?: number } = {}): Promise<number[]> {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  const posts = await db
+    .select({ id: PostsTable.id })
+    .from(PostsTable)
+    .leftJoin(ReactionsTable, equals(PostsTable.id, ReactionsTable.post_id))
+    .where(equals(PostsTable.status, 'approved'))
+    .groupBy(PostsTable.id)
+    .limit(limit)
+    .orderBy(desc(count(ReactionsTable)), desc(PostsTable.timestamp));
+  return posts.map(post => post.id);
+}
+
+export async function getPostsByIds({
+  postIds,
+}: {
+  postIds: number[];
+}): Promise<Post[]> {
+  const sessionPromise = getServerSession();
+  const resultsPromise = db.query.PostsTable.findMany({
+    where: (posts, { and, eq, inArray }) => {
+      const approved = eq(posts.status, 'approved');
+      return and(approved, inArray(posts.id, postIds));
+    },
+    with: {
+      reactions: true,
+    },
+  });
+  const [session, results] = await Promise.all([
+    sessionPromise,
+    resultsPromise,
+  ]);
+  let hashedEmail: string | undefined;
+  if (session?.user?.email) {
+    hashedEmail = hashEmail(session.user.email);
+  }
+
+  const resultsMap = Object.fromEntries(
+    results.map(result => [result.id, toResponse(result, hashedEmail)])
+  );
+  return postIds.map(id => resultsMap[id]).filter(Boolean);
 }
