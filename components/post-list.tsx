@@ -111,6 +111,7 @@ export default function PostList() {
               topRef.current?.scrollIntoView({ behavior: 'smooth' });
               const newPosts = await getPosts();
               setPosts(newPosts);
+              setHasMore(true);
             }}
           >
             New posts
