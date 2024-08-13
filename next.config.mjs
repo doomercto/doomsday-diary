@@ -6,9 +6,6 @@ const withBundleAnalyzer = NextBundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  exportPathMap: () => ({
-    '/feed': { page: '/feed/recent' },
-  }),
   images: {
     remotePatterns: [
       {
