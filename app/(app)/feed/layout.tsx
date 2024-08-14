@@ -51,6 +51,16 @@ export default function FeedLayout({
       >
         The Doomsday Diary
       </h1>
+      <h2 className="px-4 pb-4">
+        Welcome to the Doomsday Diary — where the DOOMER community turns gloom
+        into something greater. Whether you&apos;re here to vent, laugh, or
+        learn, you&apos;re in the right place.
+      </h2>
+      <h2 className="px-4 pb-4">
+        Share your own story below, read and react to others, or explore the
+        &apos;About&apos; tab to learn more about how you can tap into the
+        onchain economy.
+      </h2>
       <Accordion
         type="single"
         value={accordionValue}
