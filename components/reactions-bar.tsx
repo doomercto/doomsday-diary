@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signIn, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 import {
   addReaction as addReactionRaw,
@@ -7,8 +7,6 @@ import {
 } from '@/actions/reaction';
 
 import { ToggleGroup, ToggleGroupItem } from './ui/toggle-group';
-import { toast } from './ui/use-toast';
-import { ToastAction } from './ui/toast';
 
 import type { Reaction } from '@/actions/getPosts';
 
@@ -60,17 +58,6 @@ export default function ReactionsBar({
   );
 
   const handleReactionChange = (newReactions: Reaction['name'][]) => {
-    if (!session?.user?.email) {
-      toast({
-        title: 'Log in to react',
-        action: (
-          <ToastAction altText="Log in" onClick={() => signIn('coinbase')}>
-            Log in
-          </ToastAction>
-        ),
-      });
-      return;
-    }
     if (newReactions.length > selectedReactions.length) {
       const newReaction = newReactions.find(
         reaction => !selectedReactions.includes(reaction)
@@ -96,6 +83,9 @@ export default function ReactionsBar({
         });
       }
     } else if (newReactions.length < selectedReactions.length) {
+      if (!session?.user?.email) {
+        return;
+      }
       const removedReaction = selectedReactions.find(
         reaction => !newReactions.includes(reaction)
       );
