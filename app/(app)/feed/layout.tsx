@@ -39,7 +39,7 @@ export default function FeedLayout({
   const router = useRouter();
   const pathname = usePathname();
 
-  const currentPage = pathname === '/feed/top' ? 'top' : 'recent';
+  const currentPage = pathname === '/feed/top' ? 'top' : 'latest';
 
   return (
     <div className="p-4 md:p-10 md:pt-6 lg:pt-8 max-w-6xl 2xl:max-w-7xl w-full self-center">
@@ -71,14 +71,14 @@ export default function FeedLayout({
       <Select
         value={currentPage}
         onValueChange={newValue => {
-          router.push(`/feed/${newValue}`);
+          router.push(newValue === 'latest' ? '/feed' : `/feed/${newValue}`);
         }}
       >
         <SelectSubtleTrigger className="ml-4 text-muted-foreground">
-          {currentPage === 'recent' && (
+          {currentPage === 'latest' && (
             <>
               <Clock className="h-4 w-4" />
-              Recent
+              Latest
             </>
           )}
           {currentPage === 'top' && (
@@ -91,7 +91,7 @@ export default function FeedLayout({
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Sort by</SelectLabel>
-            <SelectItem value="recent">Recent</SelectItem>
+            <SelectItem value="latest">Latest</SelectItem>
             <SelectItem value="top">Top</SelectItem>
           </SelectGroup>
         </SelectContent>

@@ -22,6 +22,15 @@ const nextConfig = {
       },
     ],
   },
+  redirects: async () => {
+    return [
+      {
+        source: '/feed/latest',
+        destination: '/feed',
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default withBundleAnalyzer(nextConfig);
