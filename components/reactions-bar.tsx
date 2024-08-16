@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
+import { useReCaptcha } from 'next-recaptcha-v3';
 
 import {
   addReaction as addReactionRaw,
@@ -7,13 +8,37 @@ import {
 } from '@/actions/reaction';
 
 import { ToggleGroup, ToggleGroupItem } from './ui/toggle-group';
+import { ToastAction } from './ui/toast';
+import { toast } from './ui/use-toast';
 
 import type { Reaction } from '@/actions/getPosts';
 
-async function addReaction(...args: Parameters<typeof addReactionRaw>) {
+function loginToast() {
+  toast({
+    title: 'Log in to react',
+    action: (
+      <ToastAction altText="Log in" onClick={() => signIn('coinbase')}>
+        Log in
+      </ToastAction>
+    ),
+  });
+}
+
+async function addReaction(
+  post_id: number,
+  reaction: Reaction['name'],
+  tokenPromise: Promise<string>
+) {
   try {
-    const result = await addReactionRaw(...args);
+    const result = await addReactionRaw(
+      post_id,
+      reaction,
+      await tokenPromise.catch(() => '')
+    );
     if (!result?.success) {
+      if (result?.errorReason === 'login') {
+        loginToast();
+      }
       throw new Error('Failed to add reaction');
     }
     return true;
@@ -26,6 +51,9 @@ async function removeReaction(...args: Parameters<typeof removeReactionRaw>) {
   try {
     const result = await removeReactionRaw(...args);
     if (!result?.success) {
+      if (result?.errorReason === 'login') {
+        loginToast();
+      }
       throw new Error('Failed to remove reaction');
     }
     return true;
@@ -42,6 +70,8 @@ export default function ReactionsBar({
   reactions?: Reaction[];
 }) {
   const { data: session } = useSession();
+
+  const { executeRecaptcha } = useReCaptcha();
 
   const [selectedReactions, setSelectedReactions] = useState<
     Reaction['name'][]
@@ -69,7 +99,13 @@ export default function ReactionsBar({
           newCounts[newReaction]++;
           return newCounts;
         });
-        addReaction(post_id, newReaction).then(success => {
+        addReaction(
+          post_id,
+          newReaction,
+          session?.user?.email
+            ? Promise.resolve('')
+            : executeRecaptcha('add_reaction')
+        ).then(success => {
           if (!success) {
             setReactionCounts(oldCounts => {
               const newCounts = { ...oldCounts };
@@ -83,9 +119,6 @@ export default function ReactionsBar({
         });
       }
     } else if (newReactions.length < selectedReactions.length) {
-      if (!session?.user?.email) {
-        return;
-      }
       const removedReaction = selectedReactions.find(
         reaction => !newReactions.includes(reaction)
       );

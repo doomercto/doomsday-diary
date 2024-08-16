@@ -1,22 +1,31 @@
 'use server';
 
-import { randomUUID } from 'crypto';
-
 import { getServerSession } from 'next-auth';
 import { and, eq } from 'drizzle-orm';
 
 import { ReactionsTable } from '@/drizzle/schema';
 import { db } from '@/drizzle/db';
-import { hashEmail } from '@/lib/server-utils';
+import { getAnonId, hashEmail, verifyCaptcha } from '@/lib/server-utils';
 
 import type { Reaction } from './getPosts';
 
-export async function addReaction(post_id: number, reaction: Reaction['name']) {
+export async function addReaction(
+  post_id: number,
+  reaction: Reaction['name'],
+  token: string
+) {
   const session = await getServerSession();
 
-  let email = `anon-${randomUUID()}`;
+  let email;
   if (session?.user?.email) {
     email = hashEmail(session.user.email);
+  }
+  if (!email) {
+    const valid = await verifyCaptcha(token, 'add_reaction');
+    if (!valid) {
+      return { success: false, errorReason: 'login' };
+    }
+    email = getAnonId(true);
   }
 
   await db.insert(ReactionsTable).values({
@@ -33,8 +42,16 @@ export async function removeReaction(
   reaction: Reaction['name']
 ) {
   const session = await getServerSession();
-  if (!session?.user?.email) {
-    return { success: false };
+
+  let email;
+  if (session?.user?.email) {
+    email = hashEmail(session.user.email);
+  }
+  if (!email) {
+    email = getAnonId();
+  }
+  if (!email) {
+    return { success: false, errorReason: 'login' };
   }
 
   await db
@@ -42,7 +59,7 @@ export async function removeReaction(
     .where(
       and(
         eq(ReactionsTable.post_id, post_id),
-        eq(ReactionsTable.email, hashEmail(session.user.email)),
+        eq(ReactionsTable.email, email),
         eq(ReactionsTable.reaction, reaction)
       )
     );

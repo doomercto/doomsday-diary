@@ -14,6 +14,7 @@
     ],
     "@typescript-eslint/consistent-type-definitions": "error",
     "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/no-redeclare": "error",
     "arrow-body-style": ["error", "as-needed"],
     "consistent-return": "error",
     "curly": ["error", "multi-line", "consistent"],
@@ -39,6 +40,7 @@
       }
     ],
     "no-console": "warn",
+    "no-redeclare": "off",
     "no-shadow": "error",
     "no-unneeded-ternary": "error",
     "no-unused-vars": "off",
@@ -59,7 +61,7 @@
   },
   "overrides": [
     {
-      "files": ["actions/**/*.ts", "app/api/**/*.ts"],
+      "files": ["actions/**/*.ts", "app/api/**/*.ts", "lib/server-utils.ts"],
       "rules": {
         "no-console": "off"
       }

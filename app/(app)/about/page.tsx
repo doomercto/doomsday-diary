@@ -134,6 +134,24 @@ export default function About() {
           </Link>
         </li>
       </ul>
+      <Separator />
+      <small className="text-muted-foreground">
+        This site is protected by reCAPTCHA and the Google{' '}
+        <Link
+          className="text-blue-500 dark:text-blue-400"
+          href="https://policies.google.com/privacy"
+        >
+          Privacy Policy
+        </Link>{' '}
+        and{' '}
+        <Link
+          className="text-blue-500 dark:text-blue-400"
+          href="https://policies.google.com/terms"
+        >
+          Terms of Service
+        </Link>{' '}
+        apply.
+      </small>
     </div>
   );
 }

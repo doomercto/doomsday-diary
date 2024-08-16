@@ -6,7 +6,7 @@ import { cache } from 'react';
 
 import { db } from '@/drizzle/db';
 import { PostsTable, ReactionsTable } from '@/drizzle/schema';
-import { hashEmail } from '@/lib/server-utils';
+import { getAnonId, hashEmail } from '@/lib/server-utils';
 
 import type { InferSelectModel } from 'drizzle-orm';
 
@@ -100,7 +100,7 @@ export async function getPosts({ before }: { before?: string } = {}): Promise<
     sessionPromise,
     resultsPromise,
   ]);
-  let hashedEmail: string | undefined;
+  let hashedEmail: string | undefined = getAnonId();
   if (session?.user?.email) {
     hashedEmail = hashEmail(session.user.email);
   }
@@ -120,7 +120,7 @@ export const getPost = cache(async (id: number): Promise<Post> => {
   if (!result) {
     throw new Error('Post not found');
   }
-  let hashedEmail: string | undefined;
+  let hashedEmail: string | undefined = getAnonId();
   if (session?.user?.email) {
     hashedEmail = hashEmail(session.user.email);
   }
@@ -179,7 +179,7 @@ export async function getPostsByIds({
     sessionPromise,
     resultsPromise,
   ]);
-  let hashedEmail: string | undefined;
+  let hashedEmail: string | undefined = getAnonId();
   if (session?.user?.email) {
     hashedEmail = hashEmail(session.user.email);
   }
